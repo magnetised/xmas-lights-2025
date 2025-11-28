@@ -5,7 +5,7 @@ pub struct Square {
 }
 
 impl Square {
-    pub fn new(colour: Rgba, width: usize, height: usize) -> Self {
+    pub fn new(colour: Rgba, width: usize, height: usize) -> Box<Self> {
         let x_off = ((WIDTH - width) as f32 / 2.0).round() as usize;
         let y_off = ((HEIGHT - height) as f32 / 2.0).round() as usize;
         let mut points: Points = Vec::with_capacity(width * height);
@@ -18,7 +18,7 @@ impl Square {
                 })
             }
         }
-        Square { points: points }
+        Box::new(Square { points: points })
     }
 }
 

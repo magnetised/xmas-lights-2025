@@ -16,6 +16,7 @@ impl Display for Terminal {
     fn render(&mut self, grid: &Array2D<Rgb>) {
         const CHARACTER: &str = "█";
 
+        print!("\x1B[?25l");
         print!("\x1B[2J\x1B[1;1H");
 
         for y in 0..HEIGHT {
@@ -26,9 +27,12 @@ impl Display for Terminal {
                 let (r, g, b) = grid.get(y, x).unwrap();
                 // println!("r: {}; g: {}; b: {}", r, g, b);
                 let colour = format!("{};{};{}", r, g, b);
-                row.push(format!("\x1B[38;2;{0}m{1}\x1B[0m", colour, CHARACTER));
+                row.push(format!(
+                    "\x1B[38;2;{0}m{1}{1}{1}{1}{1}{1}\x1B[0m",
+                    colour, CHARACTER
+                ));
             }
-            print!("{}\n", row.join(""));
+            print!("{}\n{}\n{}\n", row.join(""), row.join(""), row.join(""));
         }
 
         // let mut lights: Vec<String> = Vec::with_capacity(bins.len());

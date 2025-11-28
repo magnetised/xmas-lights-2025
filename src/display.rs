@@ -41,18 +41,28 @@ pub struct Layer {
     pub width: usize,
     pub height: usize,
 }
+
 pub fn array<T>(element: T) -> Array2D<T>
 where
     T: Clone,
 {
     return Array2D::filled_with(element, HEIGHT, WIDTH);
 }
+
 pub fn rgba_to_rgb(rgba: Rgba) -> Rgb {
     (
         (rgba.r * 255.0).round() as u8,
         (rgba.g * 255.0).round() as u8,
         (rgba.b * 255.0).round() as u8,
     )
+}
+pub fn rgba(r: f32, g: f32, b: f32, a: f32) -> Rgba {
+    Rgba {
+        r: r,
+        g: g,
+        b: b,
+        a: a,
+    }
 }
 impl Layer {
     pub fn new(opacity: f32) -> Self {

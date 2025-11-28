@@ -1,4 +1,5 @@
 use crate::display::{Animate, Point, Rgba, HEIGHT, WIDTH};
+use rand::prelude::*;
 
 pub struct Bounce {
     colour: Rgba,
@@ -9,14 +10,43 @@ pub struct Bounce {
 }
 
 impl Bounce {
-    pub fn new(colour: Rgba, vx: f32, vy: f32) -> Self {
-        Bounce {
+    pub fn new(colour: Rgba, vx: f32, vy: f32) -> Box<Self> {
+        let mut rng = rand::rng();
+        let x = rng.random::<f32>() * (WIDTH - 1) as f32;
+        let y = rng.random::<f32>() * (HEIGHT - 1) as f32;
+        Box::new(Bounce {
             colour: colour,
-            x: 0.0,
-            y: 0.0,
+            x: x,
+            y: y,
             vx: vx,
             vy: vy,
-        }
+        })
+    }
+    pub fn random(colour: Rgba) -> Box<Self> {
+        let mut rng = rand::rng();
+        let vx = rng.random::<f32>();
+        let vy = rng.random::<f32>();
+
+        Bounce::new(colour, vx, vy)
+    }
+    pub fn random_a(r: f32, g: f32, b: f32) -> Box<Self> {
+        let mut rng = rand::rng();
+        let a = rng.random::<f32>();
+        let vx = rng.random::<f32>();
+        let vy = rng.random::<f32>();
+        let x = rng.random::<f32>();
+        let y = rng.random::<f32>();
+
+        Bounce::new(
+            Rgba {
+                r: r,
+                g: g,
+                b: b,
+                a: a,
+            },
+            vx,
+            vy,
+        )
     }
 }
 

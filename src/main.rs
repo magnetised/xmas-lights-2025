@@ -13,7 +13,7 @@ mod square;
 // mod null;
 mod terminal;
 
-use display::{Animate, Display, Layer, Points, Rgba};
+use display::{rgba, Animate, Display, Layer, Points};
 
 const SAMPLE_SIZE: usize = 2usize.pow(13);
 const RINGBUFFER_SIZE: usize = SAMPLE_SIZE;
@@ -35,46 +35,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
-        Box::new(bounce::Bounce::new(
-            Rgba {
-                r: 1.0,
-                g: 0.4,
-                b: 0.0,
-                a: 1.0,
-            },
-            0.023,
-            0.17,
-        )),
-        Box::new(square::Square::new(
-            Rgba {
-                r: 1.0,
-                g: 1.0,
-                b: 0.0,
-                a: 1.0,
-            },
-            5,
-            4,
-        )),
-        Box::new(bounce::Bounce::new(
-            Rgba {
-                r: 0.0,
-                g: 1.0,
-                b: 0.0,
-                a: 0.3,
-            },
-            0.06,
-            0.2,
-        )),
-        Box::new(bounce::Bounce::new(
-            Rgba {
-                r: 1.0,
-                g: 0.0,
-                b: 0.0,
-                a: 1.0,
-            },
-            0.80,
-            0.11,
-        )),
+        bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        square::Square::new(rgba(1.0, 1.0, 0.0, 1.0), 5, 4),
+        // bounce::Bounce::new(rgba(0.0, 1.0, 0.0, 0.3), 0.06, 0.2),
+        // bounce::Bounce::new(rgba(1.0, 0.0, 0.0, 1.0), 0.80, 0.11),
+        //
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        bounce::Bounce::random_a(0.0, 1.0, 1.0),
     ];
 
     layers.reverse();
@@ -87,12 +68,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .map(|animation| animation.step())
             .collect();
 
-        let mut base = Layer::filled_with(Rgba {
-            r: 0.0,
-            g: 0.0,
-            b: 0.0,
-            a: 1.0,
-        });
+        let mut base = Layer::filled_with(rgba(0.0, 0.0, 0.0, 1.0));
 
         for layer in animated.iter() {
             for point in layer {
@@ -108,7 +84,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
         display.render(&grid);
 
-        thread::sleep(Duration::from_millis(16));
+        thread::sleep(Duration::from_millis(32));
     }
 }
 
