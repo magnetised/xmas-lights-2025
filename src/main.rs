@@ -14,7 +14,7 @@ mod square;
 // mod null;
 mod terminal;
 
-use display::{Animate, Display, Layer, Rgba};
+use display::{Animate, Display, Layer, Point, Points, Rgba};
 
 const SAMPLE_SIZE: usize = 2usize.pow(13);
 const RINGBUFFER_SIZE: usize = SAMPLE_SIZE;
@@ -45,18 +45,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             },
             0.80,
             0.11,
-            1.0,
         )),
         Box::new(bounce::Bounce::new(
             Rgba {
                 r: 0.0,
                 g: 1.0,
                 b: 0.0,
-                a: 1.0,
+                a: 0.3,
             },
             0.06,
             0.2,
-            0.3,
         )),
         Box::new(square::Square::new(
             Rgba {
@@ -67,7 +65,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             },
             5,
             5,
-            1.0,
         )),
         Box::new(bounce::Bounce::new(
             Rgba {
@@ -78,14 +75,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             },
             0.023,
             0.17,
-            1.0,
         )),
     ];
 
     let mut display = display_impl();
 
     loop {
-        let animated: Vec<Layer> = layers
+        let animated: Vec<Points> = layers
             .iter_mut()
             .map(|animation| animation.step())
             .collect();
@@ -98,14 +94,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         });
 
         for layer in animated.iter() {
-            for y in 0..display::HEIGHT {
-                for x in 0..display::WIDTH {
-                    let dst = base.get(x, y);
-                    let src = layer.get(x, y);
-
-                    let blended = BlendMode::SourceOver.apply(src, dst);
-                    base.set(x, y, blended)
-                }
+            for point in layer {
+                let dst = base.get(point.x, point.y);
+                let src = point.c;
+                let blended = BlendMode::SourceOver.apply(src, dst);
+                base.set(point.x, point.y, blended)
             }
         }
         for y in 0..display::HEIGHT {

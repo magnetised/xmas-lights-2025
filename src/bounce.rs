@@ -1,7 +1,6 @@
-use crate::display::{Animate, Layer, Rgba};
+use crate::display::{Animate, Point, Rgba, HEIGHT, WIDTH};
 
 pub struct Bounce {
-    layer: Layer,
     colour: Rgba,
     x: f32,
     y: f32,
@@ -10,9 +9,8 @@ pub struct Bounce {
 }
 
 impl Bounce {
-    pub fn new(colour: Rgba, vx: f32, vy: f32, opacity: f32) -> Self {
+    pub fn new(colour: Rgba, vx: f32, vy: f32) -> Self {
         Bounce {
-            layer: Layer::new(opacity),
             colour: colour,
             x: 0.0,
             y: 0.0,
@@ -23,16 +21,16 @@ impl Bounce {
 }
 
 impl Animate for Bounce {
-    fn step(&mut self) -> Layer {
+    fn step(&mut self) -> Vec<Point> {
         self.x += self.vx;
         self.y += self.vy;
 
-        if self.x > self.layer.width as f32 {
-            self.x = self.layer.width as f32;
+        if self.x > (WIDTH - 1) as f32 {
+            self.x = (WIDTH - 1) as f32;
             self.vx = -self.vx;
         }
-        if self.y > self.layer.height as f32 {
-            self.y = self.layer.height as f32;
+        if self.y > (HEIGHT - 1) as f32 {
+            self.y = (HEIGHT - 1) as f32;
             self.vy = -self.vy;
         }
         if self.x < 0.0 {
@@ -43,14 +41,11 @@ impl Animate for Bounce {
             self.y = 0.0;
             self.vy = -self.vy;
         }
-        self.layer.clear();
 
-        self.layer.set(
-            self.x.round() as usize,
-            self.y.round() as usize,
-            self.colour,
-        );
-
-        return self.layer.clone();
+        return vec![Point {
+            x: self.x.round() as usize,
+            y: self.y.round() as usize,
+            c: self.colour,
+        }];
     }
 }

@@ -1,29 +1,29 @@
-use crate::display::{Animate, Layer, Rgba};
+use crate::display::{Animate, Point, Points, Rgba, HEIGHT, WIDTH};
 
 pub struct Square {
-    layer: Layer,
+    points: Points,
 }
 
 impl Square {
-    pub fn new(colour: Rgba, width: usize, height: usize, opacity: f32) -> Self {
-        let mut layer = Layer::new(opacity);
-
-        let x_off = ((layer.width - width) as f32 / 2.0).round() as usize;
-        let y_off = ((layer.height - height) as f32 / 2.0).round() as usize;
+    pub fn new(colour: Rgba, width: usize, height: usize) -> Self {
+        let x_off = ((WIDTH - width) as f32 / 2.0).round() as usize;
+        let y_off = ((HEIGHT - height) as f32 / 2.0).round() as usize;
+        let mut points: Points = Vec::with_capacity(width * height);
         for x in x_off..(x_off + width) {
             for y in y_off..(y_off + height) {
-                println!("x: {}; y: {}", x, y);
-                layer.set(x, y, colour);
+                points.push(Point {
+                    x: x,
+                    y: y,
+                    c: colour,
+                })
             }
         }
-        Square {
-            layer: layer.clone(),
-        }
+        Square { points: points }
     }
 }
 
 impl Animate for Square {
-    fn step(&mut self) -> Layer {
-        return self.layer.clone();
+    fn step(&mut self) -> Points {
+        return self.points.clone();
     }
 }

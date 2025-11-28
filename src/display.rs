@@ -6,6 +6,16 @@ pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);
 
 pub const BLACK: Rgb = (0, 0, 0);
+
+#[derive(Clone, Copy, Debug)]
+pub struct Point {
+    pub x: usize,
+    pub y: usize,
+    pub c: Rgba,
+}
+
+pub type Points = Vec<Point>;
+
 const CLEAR: F32x4Rgba = F32x4Rgba {
     r: 0.0,
     g: 0.0,
@@ -15,19 +25,12 @@ const CLEAR: F32x4Rgba = F32x4Rgba {
 pub const WIDTH: usize = 15;
 pub const HEIGHT: usize = 15;
 
-pub fn grid<T>(element: T) -> Array2D<T>
-where
-    T: Clone,
-{
-    return Array2D::filled_with(element, WIDTH, HEIGHT);
-}
-
 pub trait Display {
     fn render(&mut self, grid: &Array2D<Rgb>);
 }
 
 pub trait Animate {
-    fn step(&mut self) -> Layer;
+    fn step(&mut self) -> Vec<Point>;
 }
 
 #[derive(Clone, Debug)]
