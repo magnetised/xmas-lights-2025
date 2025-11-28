@@ -24,7 +24,7 @@ const CLEAR: F32x4Rgba = F32x4Rgba {
     a: 0.0,
 };
 pub const WIDTH: usize = 15;
-pub const HEIGHT: usize = 15;
+pub const HEIGHT: usize = 20;
 
 pub trait Display {
     fn render(&mut self, grid: &Array2D<Rgb>);
@@ -41,7 +41,12 @@ pub struct Layer {
     pub width: usize,
     pub height: usize,
 }
-
+pub fn array<T>(element: T) -> Array2D<T>
+where
+    T: Clone,
+{
+    return Array2D::filled_with(element, HEIGHT, WIDTH);
+}
 pub fn rgba_to_rgb(rgba: Rgba) -> Rgb {
     (
         (rgba.r * 255.0).round() as u8,
@@ -53,7 +58,7 @@ impl Layer {
     pub fn new(opacity: f32) -> Self {
         Layer {
             opacity: opacity,
-            grid: Array2D::filled_with(CLEAR, WIDTH, HEIGHT),
+            grid: array(CLEAR),
             width: WIDTH,
             height: HEIGHT,
         }
@@ -62,7 +67,7 @@ impl Layer {
     pub fn filled_with(colour: Rgba) -> Self {
         Layer {
             opacity: 1.0,
-            grid: Array2D::filled_with(colour, WIDTH, HEIGHT),
+            grid: array(colour),
             width: WIDTH,
             height: HEIGHT,
         }
@@ -87,6 +92,6 @@ impl Layer {
     }
 
     pub fn clear(&mut self) {
-        self.grid = Array2D::filled_with(CLEAR, WIDTH, HEIGHT);
+        self.grid = array(CLEAR);
     }
 }

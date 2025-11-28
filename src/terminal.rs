@@ -21,6 +21,8 @@ impl Display for Terminal {
         for y in 0..HEIGHT {
             let mut row: Vec<String> = Vec::with_capacity(WIDTH);
             for x in 0..WIDTH {
+                // println!("x: {}; y: {}", x, y);
+
                 let (r, g, b) = grid.get(y, x).unwrap();
                 // println!("r: {}; g: {}; b: {}", r, g, b);
                 let colour = format!("{};{};{}", r, g, b);

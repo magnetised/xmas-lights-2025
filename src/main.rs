@@ -31,7 +31,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         process::exit(1);
     }));
 
-    let mut grid = Array2D::filled_with(display::BLACK, display::WIDTH, display::HEIGHT);
+    let mut grid = display::array(display::BLACK);
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
@@ -53,7 +53,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 a: 1.0,
             },
             5,
-            5,
+            4,
         )),
         Box::new(bounce::Bounce::new(
             Rgba {
