@@ -1,0 +1,40 @@
+@import "tailwindcss";
+/* @import "tailwindcss/components"; */
+/* @import "tailwindcss/utilities"; */
+html {
+  @apply text-gray-800;
+}
+
+body,
+html {
+  height: 100%; /* Fill the window */
+  user-select: none;
+  font-family: "Hepta Slab", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
+html,
+body,
+.background {
+  background-color: #181b1f;
+}
+
+.text-label {
+  color: #7b888a;
+}
+.text-subdued {
+  /* color: oklch(0.4859 0.0941 264.665); */
+  /* color: #393e43; */
+  color: #565c61;
+}
+.darkmode {
+  fill: #565c61;
+}
+
+.tab-inactive {
+  /* border-bottom-color: #7b888a; */
+  background-color: #181b1f;
+}

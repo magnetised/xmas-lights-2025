@@ -1,0 +1,59 @@
+defmodule BlinkenLights.DisplayConfig.Colour do
+  @derive Jason.Encoder
+  defstruct hue: 0.0, saturation: 1.0
+end
+
+defmodule BlinkenLights.DisplayConfig do
+  use GenServer
+
+  alias BlinkenLights.DisplayConfig.Colour
+
+  @derive Jason.Encoder
+
+  defstruct white: %Colour{hue: 1.0, saturation: 0.9},
+            black: %Colour{hue: 350.0, saturation: 0.9},
+            fade: 0.89,
+            brightness: 0.8,
+            sensitivity: 1.0,
+            decay: 1.8,
+            scale: false,
+            dark_mode: false,
+            colour_cycle: false,
+            colour_cycle_speed: 0.0
+
+  @config_key :config
+  @table __MODULE__
+  @rust_keys ~w[white black saturation fade brightness sensitivity decay scale]a
+
+  def set_active(config) do
+    :ets.insert(@table, {@config_key, config})
+    :ok
+  end
+
+  def get_active do
+    case :ets.lookup(@table, @config_key) do
+      [{@config_key, config}] -> {:ok, config}
+      [] -> :error
+    end
+  end
+
+  def for_websocket(%__MODULE__{} = config) do
+    {:ok, config}
+  end
+
+  def encode_rust(%__MODULE__{} = config) do
+    config
+    |> Map.take(@rust_keys)
+    |> Jason.encode()
+  end
+
+  def start_link(config) do
+    GenServer.start_link(__MODULE__, config, name: __MODULE__)
+  end
+
+  def init(config) do
+    _table = :ets.new(@table, [:public, :named_table])
+    set_active(config)
+    {:ok, []}
+  end
+end
