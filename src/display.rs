@@ -1,82 +1,75 @@
-use angular_units::Deg;
-use prisma::{FromColor, Hsv};
+use alpha_blend::rgba::F32x4Rgba;
+// use alpha_blend::{BlendMode, RgbaBlend};
+use array2d::Array2D;
 
-use serde::{self, Deserialize, Serialize};
-use serde_json::Result;
-
+pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct KeyColour {
-    hue: f32,
-    saturation: f32,
-}
+pub const BLACK: Rgb = (0, 0, 0);
+const CLEAR: F32x4Rgba = F32x4Rgba {
+    r: 0.0,
+    g: 0.0,
+    b: 0.0,
+    a: 0.0,
+};
+pub const WIDTH: usize = 15;
+pub const HEIGHT: usize = 15;
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct DisplayConfig {
-    white: KeyColour,
-    black: KeyColour,
-    pub fade: f32,
-    pub brightness: f32,
-    pub sensitivity: f32,
-    // turn on output scaling, makes even quiet sounds
-    // show up
-    pub scale: bool,
-    // how much to decay values < the max when scaling. bigger means
-    // the display is more "peaky"
-    pub decay: f32,
-}
-
-impl DisplayConfig {
-    pub fn default() -> Self {
-        DisplayConfig {
-            white: KeyColour {
-                hue: 1.0,
-                saturation: 1.0,
-            },
-            black: KeyColour {
-                hue: 350.0,
-                saturation: 1.0,
-            },
-            fade: 0.9,
-            brightness: 0.5,
-            sensitivity: 1.0,
-            decay: 1.8,
-            scale: false,
-        }
-    }
-    pub fn decode(json: &str) -> Result<Self> {
-        serde_json::from_str(json)
-    }
-    pub fn black_colour(&self, intensity: f32) -> Rgb {
-        self.set_colour(&self.black, intensity)
-    }
-    pub fn white_colour(&self, intensity: f32) -> Rgb {
-        self.set_colour(&self.white, intensity)
-    }
-
-    fn set_colour(&self, src_colour: &KeyColour, intensity: f32) -> Rgb {
-        let colour = Hsv::new(
-            Deg(src_colour.hue.clamp(0.0, 359.9)),
-            src_colour.saturation,
-            (intensity * self.brightness).clamp(0.0, 1.0),
-        );
-        let rgb = prisma::Rgb::from_color(&colour);
-        // let rgb = colour.to_rgb(prisma::HsiOutOfGamutMode::Preserve);
-        (
-            (rgb.red() * 255.0).round() as u8,
-            (rgb.green() * 255.0).round() as u8,
-            (rgb.blue() * 255.0).round() as u8,
-        )
-    }
+pub fn grid<T>(element: T) -> Array2D<T>
+where
+    T: Clone,
+{
+    return Array2D::filled_with(element, WIDTH, HEIGHT);
 }
 
 pub trait Display {
-    fn visualize_bins(
-        &mut self,
-        bins: &[f32],
-        peak_magnitudes: &mut Vec<f32>,
-        config: &DisplayConfig,
-    ) -> ();
-    fn reset(&mut self) -> ();
+    fn render(&mut self, grid: &Array2D<Rgb>);
+}
+
+pub trait Animate {
+    fn step(&mut self) -> Layer;
+}
+
+#[derive(Clone, Debug)]
+pub struct Layer {
+    grid: Array2D<Rgba>,
+    pub opacity: f32,
+    pub width: usize,
+    pub height: usize,
+}
+
+impl Layer {
+    pub fn new(opacity: f32) -> Self {
+        Layer {
+            opacity: opacity,
+            grid: Array2D::filled_with(CLEAR, WIDTH, HEIGHT),
+            width: WIDTH,
+            height: HEIGHT,
+        }
+    }
+
+    pub fn filled_with(colour: Rgba) -> Self {
+        Layer {
+            opacity: 1.0,
+            grid: Array2D::filled_with(colour, WIDTH, HEIGHT),
+            width: WIDTH,
+            height: HEIGHT,
+        }
+    }
+
+    pub fn set(&mut self, x: usize, y: usize, colour: Rgba) {
+        let blended = Rgba {
+            a: colour.a * self.opacity,
+            ..colour
+        };
+        self.grid.set(y, x, blended);
+    }
+
+    pub fn get(&self, x: usize, y: usize) -> Rgba {
+        return *self.grid.get(y, x).unwrap();
+    }
+
+    pub fn clear(&mut self) {
+        self.grid = Array2D::filled_with(CLEAR, WIDTH, HEIGHT)
+    }
 }
