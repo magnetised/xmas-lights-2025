@@ -22,6 +22,19 @@ impl Bounce {
             vy: vy,
         })
     }
+    pub fn completely_random() -> Box<Self> {
+        let mut rng = rand::rng();
+        let r = rng.random::<f32>();
+        let g = rng.random::<f32>();
+        let b = rng.random::<f32>();
+        let a = rng.random::<f32>();
+        Bounce::random(Rgba {
+            r: r,
+            g: g,
+            b: b,
+            a: a,
+        })
+    }
     pub fn random(colour: Rgba) -> Box<Self> {
         let mut rng = rand::rng();
         let vx = rng.random::<f32>();
@@ -34,8 +47,6 @@ impl Bounce {
         let a = rng.random::<f32>();
         let vx = rng.random::<f32>();
         let vy = rng.random::<f32>();
-        let x = rng.random::<f32>();
-        let y = rng.random::<f32>();
 
         Bounce::new(
             Rgba {
