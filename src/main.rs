@@ -9,6 +9,7 @@ use array2d::Array2D;
 mod bounce;
 mod display;
 mod layer;
+mod square;
 // mod leds;
 // mod null;
 mod terminal;
@@ -43,31 +44,42 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 a: 1.0,
             },
             0.80,
-            0.01,
+            0.11,
             1.0,
         )),
-        // Box::new(bounce::Bounce::new(
-        //     Rgba {
-        //         r: 0.0,
-        //         g: 1.0,
-        //         b: 0.0,
-        //         a: 1.0,
-        //     },
-        //     0.06,
-        //     0.2,
-        //     0.3,
-        // )),
-        // Box::new(bounce::Bounce::new(
-        //     Rgba {
-        //         r: 1.0,
-        //         g: 0.4,
-        //         b: 0.0,
-        //         a: 1.0,
-        //     },
-        //     0.023,
-        //     0.17,
-        //     0.25,
-        // )),
+        Box::new(bounce::Bounce::new(
+            Rgba {
+                r: 0.0,
+                g: 1.0,
+                b: 0.0,
+                a: 1.0,
+            },
+            0.06,
+            0.2,
+            0.3,
+        )),
+        Box::new(square::Square::new(
+            Rgba {
+                r: 1.0,
+                g: 1.0,
+                b: 0.0,
+                a: 1.0,
+            },
+            5,
+            5,
+            1.0,
+        )),
+        Box::new(bounce::Bounce::new(
+            Rgba {
+                r: 1.0,
+                g: 0.4,
+                b: 0.0,
+                a: 1.0,
+            },
+            0.023,
+            0.17,
+            1.0,
+        )),
     ];
 
     let mut display = display_impl();
