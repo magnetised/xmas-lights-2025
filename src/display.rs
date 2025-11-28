@@ -1,5 +1,6 @@
 use alpha_blend::rgba::F32x4Rgba;
 // use alpha_blend::{BlendMode, RgbaBlend};
+use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
 
 pub type Rgba = F32x4Rgba;
@@ -41,6 +42,13 @@ pub struct Layer {
     pub height: usize,
 }
 
+pub fn rgba_to_rgb(rgba: Rgba) -> Rgb {
+    (
+        (rgba.r * 255.0).round() as u8,
+        (rgba.g * 255.0).round() as u8,
+        (rgba.b * 255.0).round() as u8,
+    )
+}
 impl Layer {
     pub fn new(opacity: f32) -> Self {
         Layer {
@@ -68,11 +76,17 @@ impl Layer {
         self.grid.set(y, x, blended);
     }
 
+    pub fn blend(&mut self, x: usize, y: usize, colour: Rgba) {
+        let dst = self.get(x, y);
+        let blended = BlendMode::SourceOver.apply(colour, dst);
+        self.set(x, y, blended);
+    }
+
     pub fn get(&self, x: usize, y: usize) -> Rgba {
         return *self.grid.get(y, x).unwrap();
     }
 
     pub fn clear(&mut self) {
-        self.grid = Array2D::filled_with(CLEAR, WIDTH, HEIGHT)
+        self.grid = Array2D::filled_with(CLEAR, WIDTH, HEIGHT);
     }
 }

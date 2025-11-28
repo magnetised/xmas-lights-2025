@@ -3,7 +3,6 @@ use std::time::Duration;
 
 use std::{panic, process, thread};
 
-use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
 
 mod bounce;
@@ -14,7 +13,7 @@ mod square;
 // mod null;
 mod terminal;
 
-use display::{Animate, Display, Layer, Point, Points, Rgba};
+use display::{Animate, Display, Layer, Points, Rgba};
 
 const SAMPLE_SIZE: usize = 2usize.pow(13);
 const RINGBUFFER_SIZE: usize = SAMPLE_SIZE;
@@ -34,27 +33,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut grid = Array2D::filled_with(display::BLACK, display::WIDTH, display::HEIGHT);
 
-    // reverse: first is at bottom...
+    // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
         Box::new(bounce::Bounce::new(
             Rgba {
                 r: 1.0,
-                g: 0.0,
+                g: 0.4,
                 b: 0.0,
                 a: 1.0,
             },
-            0.80,
-            0.11,
-        )),
-        Box::new(bounce::Bounce::new(
-            Rgba {
-                r: 0.0,
-                g: 1.0,
-                b: 0.0,
-                a: 0.3,
-            },
-            0.06,
-            0.2,
+            0.023,
+            0.17,
         )),
         Box::new(square::Square::new(
             Rgba {
@@ -68,15 +57,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         )),
         Box::new(bounce::Bounce::new(
             Rgba {
+                r: 0.0,
+                g: 1.0,
+                b: 0.0,
+                a: 0.3,
+            },
+            0.06,
+            0.2,
+        )),
+        Box::new(bounce::Bounce::new(
+            Rgba {
                 r: 1.0,
-                g: 0.4,
+                g: 0.0,
                 b: 0.0,
                 a: 1.0,
             },
-            0.023,
-            0.17,
+            0.80,
+            0.11,
         )),
     ];
+
+    layers.reverse();
 
     let mut display = display_impl();
 
@@ -95,20 +96,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         for layer in animated.iter() {
             for point in layer {
-                let dst = base.get(point.x, point.y);
-                let src = point.c;
-                let blended = BlendMode::SourceOver.apply(src, dst);
-                base.set(point.x, point.y, blended)
+                base.blend(point.x, point.y, point.c)
             }
         }
         for y in 0..display::HEIGHT {
             for x in 0..display::WIDTH {
                 let blended = base.get(x, y);
-                let rgb = (
-                    (blended.r * 255.0).round() as u8,
-                    (blended.g * 255.0).round() as u8,
-                    (blended.b * 255.0).round() as u8,
-                );
+                let rgb = display::rgba_to_rgb(blended);
                 grid.set(y, x, rgb);
             }
         }
