@@ -25,8 +25,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snow::Snow::new(1, 5),
-        // // square::Square::new(rgba(0.8, 0.0, 0.0, 1.0), 5, 4),
         snow::Snow::new(2, 6),
+        square::Square::new(rgba(0.5, 0.0, 0.0, 1.0), 5, 4),
         snow::Snow::new(3, 8),
         snow::Snow::new(4, 20),
         // bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
