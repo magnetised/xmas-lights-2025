@@ -1,4 +1,4 @@
-use crate::display::{Animate, Point, Rgba, HEIGHT, WIDTH};
+use crate::display::{Animate, HEIGHT, Point, Rgba, WIDTH};
 use rand::prelude::*;
 
 struct Flake {
@@ -32,8 +32,8 @@ impl Flake {
 
 impl Snow {
     pub fn new(depth: usize) -> Box<Self> {
-        let opacity = 1.0 / 1.3f32.powi(depth as i32);
-        let vy = VY / 1.3f32.powi(depth as i32);
+        let opacity = 0.7 / 1.5f32.powi(depth as i32);
+        let vy = VY / 1.1f32.powi(depth as i32);
         println!("depth: {}, opacity: {}, vy: {}", depth, opacity, vy);
         Box::new(Snow {
             depth: depth,
