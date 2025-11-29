@@ -88,7 +88,7 @@ impl Layer {
             a: colour.a * self.opacity,
             ..colour
         };
-        self.grid.set(y, x, blended);
+        self.grid.set(y, x, blended).unwrap();
     }
 
     pub fn blend(&mut self, x: usize, y: usize, colour: Rgba) {

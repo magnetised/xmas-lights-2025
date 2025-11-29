@@ -1,12 +1,64 @@
 #![allow(dead_code)]
+use array2d::Array2D;
 use smart_leds::RGB8;
 use ws281x_rpi::Ws2812Rpi;
 
-use crate::display;
-use crate::piano::{KeyColour, key_colour};
+use crate::display::{Display, Rgb, HEIGHT, WIDTH};
 
-const NUM_LEDS: usize = 144;
+const NUM_LEDS: usize = 300;
 const PIN: i32 = 10;
+
+// array_map.exs
+const ARRAY_MAP: [[usize; WIDTH]; HEIGHT] = [
+    [14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
+    [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    [44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30],
+    [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
+    [74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60],
+    [75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89],
+    [
+        104, 103, 102, 101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90,
+    ],
+    [
+        105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
+    ],
+    [
+        134, 133, 132, 131, 130, 129, 128, 127, 126, 125, 124, 123, 122, 121, 120,
+    ],
+    [
+        135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149,
+    ],
+    [
+        164, 163, 162, 161, 160, 159, 158, 157, 156, 155, 154, 153, 152, 151, 150,
+    ],
+    [
+        165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179,
+    ],
+    [
+        194, 193, 192, 191, 190, 189, 188, 187, 186, 185, 184, 183, 182, 181, 180,
+    ],
+    [
+        195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+    ],
+    [
+        224, 223, 222, 221, 220, 219, 218, 217, 216, 215, 214, 213, 212, 211, 210,
+    ],
+    [
+        225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239,
+    ],
+    [
+        254, 253, 252, 251, 250, 249, 248, 247, 246, 245, 244, 243, 242, 241, 240,
+    ],
+    [
+        255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269,
+    ],
+    [
+        284, 283, 282, 281, 280, 279, 278, 277, 276, 275, 274, 273, 272, 271, 270,
+    ],
+    [
+        285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299,
+    ],
+];
 
 pub struct LEDs {
     leds: Ws2812Rpi,
@@ -21,7 +73,7 @@ impl LEDs {
             data: vec![RGB8::default(); NUM_LEDS],
         }
     }
-    fn set_colour(&mut self, l: usize, rgb: display::Rgb) {
+    fn set_colour(&mut self, l: usize, rgb: Rgb) {
         let (r, g, b) = rgb;
         self.data[l].r = r;
         self.data[l].g = g;
@@ -29,38 +81,13 @@ impl LEDs {
     }
 }
 
-impl display::Display for LEDs {
-    fn visualize_bins(
-        &mut self,
-        bins: &[f32],
-        peak_magnitudes: &mut Vec<f32>,
-        config: &display::DisplayConfig,
-    ) {
-        // offset because we don't use all the leds
-        let mut l: usize = 5;
-        for (i, &magnitude) in bins.iter().enumerate() {
-            if l >= NUM_LEDS {
-                panic!("led index out of bounds {}", l);
-            }
-            if magnitude > peak_magnitudes[i] {
-                peak_magnitudes[i] = magnitude;
-            } else {
-                peak_magnitudes[i] *= config.fade;
-            }
-            let brightness = peak_magnitudes[i] * config.sensitivity;
-            match key_colour(i + 1) {
-                KeyColour::White => {
-                    let rgb = config.white_colour(brightness);
-                    self.set_colour(l, rgb);
-                    self.set_colour(l + 1, rgb);
-                    self.set_colour(l + 2, rgb);
-                    l += 3;
-                }
-                KeyColour::Black => {
-                    let rgb = config.black_colour(brightness);
-                    self.set_colour(l, rgb);
-                    l += 1;
-                }
+impl Display for LEDs {
+    fn render(&mut self, grid: &Array2D<Rgb>) {
+        for y in 0..HEIGHT {
+            for x in 0..WIDTH {
+                let rgb = *grid.get(x, y).unwrap();
+                let l = ARRAY_MAP[x][y];
+                self.set_colour(l, rgb);
             }
         }
         smart_leds::SmartLedsWrite::write(
@@ -68,14 +95,5 @@ impl display::Display for LEDs {
             smart_leds::gamma(self.data.iter().copied()), // self.data.iter().copied(),
         )
         .unwrap();
-    }
-    fn reset(&mut self) {
-        // self.data.fill(RGB8::default());
-        let blank = vec![RGB8::default(); NUM_LEDS];
-        let _ = smart_leds::SmartLedsWrite::write(
-            &mut self.leds,
-            // smart_leds::gamma(self.data.iter().copied()),
-            blank.iter().copied(),
-        );
     }
 }
