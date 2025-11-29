@@ -3,7 +3,7 @@ use array2d::Array2D;
 use smart_leds::RGB8;
 use ws281x_rpi::Ws2812Rpi;
 
-use crate::display::{Display, Rgb, HEIGHT, WIDTH};
+use crate::display::{Display, HEIGHT, Rgb, WIDTH};
 
 const NUM_LEDS: usize = 300;
 const PIN: i32 = 10;
@@ -85,8 +85,8 @@ impl Display for LEDs {
     fn render(&mut self, grid: &Array2D<Rgb>) {
         for y in 0..HEIGHT {
             for x in 0..WIDTH {
-                let rgb = *grid.get(x, y).unwrap();
-                let l = ARRAY_MAP[x][y];
+                let l = ARRAY_MAP[y][x];
+                let rgb = *grid.get(y, x).unwrap();
                 self.set_colour(l, rgb);
             }
         }

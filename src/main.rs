@@ -9,7 +9,7 @@ mod square;
 // mod null;
 mod terminal;
 
-use display::{rgba, Animate, Display, Layer, Points};
+use display::{Animate, Display, Layer, Points, rgba};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let orig_hook = panic::take_hook();
@@ -24,22 +24,22 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
         bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
-        // bounce::Bounce::completely_random(),
+        bounce::Bounce::completely_random(),
         square::Square::new(rgba(1.0, 1.0, 0.0, 1.0), 5, 4),
         bounce::Bounce::random(rgba(0.0, 1.0, 0.0, 1.0)),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
-        bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
+        // bounce::Bounce::random_a(0.0, 1.0, 1.0),
     ];
 
     layers.reverse();
