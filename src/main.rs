@@ -5,11 +5,12 @@ use std::{panic, process, thread};
 mod bounce;
 mod display;
 mod leds;
+mod snow;
 mod square;
 // mod null;
 mod terminal;
 
-use display::{Animate, Display, Layer, Points, rgba};
+use display::{rgba, Animate, Display, Layer, Points};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let orig_hook = panic::take_hook();
@@ -23,10 +24,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
-        bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
-        bounce::Bounce::completely_random(),
-        square::Square::new(rgba(1.0, 1.0, 0.0, 1.0), 5, 4),
-        bounce::Bounce::random(rgba(0.0, 1.0, 0.0, 1.0)),
+        snow::Snow::new(0),
+        snow::Snow::new(3),
+        snow::Snow::new(5),
+        // bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
+        // bounce::Bounce::completely_random(),
+        // square::Square::new(rgba(1.0, 1.0, 0.0, 1.0), 5, 4),
+        // bounce::Bounce::random(rgba(0.0, 1.0, 0.0, 1.0)),
         // bounce::Bounce::random_a(0.0, 1.0, 1.0),
         // bounce::Bounce::random_a(0.0, 1.0, 1.0),
         // bounce::Bounce::random_a(0.0, 1.0, 1.0),
