@@ -24,7 +24,7 @@ const WHITE: Rgba = Rgba {
     a: 1.0,
 };
 
-const VY: f32 = 0.020;
+const VY: f32 = 0.010;
 
 impl Flake {
     fn new(x: usize, vy: f32) -> Self {
