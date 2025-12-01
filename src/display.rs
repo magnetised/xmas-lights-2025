@@ -7,6 +7,14 @@ use std::collections::HashMap;
 pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);
 
+#[derive(Clone, Copy, Debug)]
+pub struct HSVa {
+    pub h: f32,
+    pub s: f32,
+    pub v: f32,
+    pub a: f32,
+}
+
 pub const BLACK: Rgb = (0, 0, 0);
 
 #[derive(Clone, Copy, Debug)]
@@ -132,6 +140,73 @@ pub fn rgba(r: f32, g: f32, b: f32, a: f32) -> Rgba {
         a: a,
     }
 }
+
+pub fn rgb_to_hsv(color: Rgba) -> HSVa {
+    // Normalize RGB values to 0.0 - 1.0
+    // let r = color.r as f32 / 255.0;
+    // let g = color.g as f32 / 255.0;
+    // let b = color.b as f32 / 255.0;
+
+    let max = color.r.max(color.g).max(color.b);
+    let min = color.r.min(color.g).min(color.b);
+    let delta = max - min;
+
+    // Calculate Value
+    let v = max;
+
+    // Calculate Saturation
+    let s = if max == 0.0 { 0.0f32 } else { delta / max };
+
+    // Calculate Hue
+    let h = if delta == 0.0 {
+        0.0f32 // Undefined, achromatic (grey)
+    } else if max == color.r {
+        60.0 * (((color.g - color.b) / delta) % 6.0)
+    } else if max == color.g {
+        60.0 * (((color.b - color.r) / delta) + 2.0)
+    } else {
+        60.0 * (((color.r - color.g) / delta) + 4.0)
+    };
+
+    // Normalize hue to 0-360 range
+    let h = if h < 0.0 { h + 360.0 } else { h };
+
+    HSVa {
+        h,
+        s,
+        v,
+        a: color.a,
+    }
+}
+
+pub fn hsv_to_rgb(hsv: HSVa) -> Rgba {
+    let c = hsv.v * hsv.s;
+    let h_prime = hsv.h / 60.0;
+    let x = c * (1.0 - ((h_prime % 2.0) - 1.0).abs());
+    let m = hsv.v - c;
+
+    let (r, g, b) = if h_prime < 1.0 {
+        (c, x, 0.0)
+    } else if h_prime < 2.0 {
+        (x, c, 0.0)
+    } else if h_prime < 3.0 {
+        (0.0, c, x)
+    } else if h_prime < 4.0 {
+        (0.0, x, c)
+    } else if h_prime < 5.0 {
+        (x, 0.0, c)
+    } else {
+        (c, 0.0, x)
+    };
+
+    Rgba {
+        r: (r + m),
+        g: (g + m),
+        b: (b + m),
+        a: hsv.a,
+    }
+}
+
 impl Layer {
     pub fn new(opacity: f32) -> Self {
         Layer {
