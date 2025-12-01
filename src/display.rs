@@ -2,6 +2,7 @@ use alpha_blend::rgba::F32x4Rgba;
 // use alpha_blend::{BlendMode, RgbaBlend};
 use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
+use std::collections::HashMap;
 
 pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);
@@ -14,8 +15,75 @@ pub struct Point {
     pub y: usize,
     pub c: Rgba,
 }
-
 pub type Points = Vec<Point>;
+pub type SpriteColour<'a> = (&'a str, Rgba);
+
+pub struct SpriteConfig<'a> {
+    pub pixels: Vec<&'a str>,
+    pub colours: Vec<SpriteColour<'a>>,
+}
+
+pub struct Sprite {
+    points: Vec<Point>,
+    pub x: usize,
+    pub y: usize,
+}
+
+const SPACE: char = ' ';
+
+impl Sprite {
+    pub fn new(pixels: &[&str], colours: &[SpriteColour]) -> Self {
+        let mut colour_lut = HashMap::new();
+        for (s, colour) in colours.iter() {
+            let ch = s.chars().nth(0).unwrap();
+            colour_lut.insert(ch, *colour);
+        }
+        let mut points: Vec<Point> = Vec::new();
+        for (y, l) in pixels.iter().enumerate() {
+            for (x, c) in l.chars().enumerate() {
+                if c != SPACE {
+                    points.push(Point {
+                        x,
+                        y,
+                        c: *colour_lut.get(&c).unwrap(),
+                    })
+                }
+            }
+        }
+        return Sprite {
+            points: points,
+            x: 0,
+            y: 0,
+        };
+    }
+
+    pub fn position(&mut self, x: usize, y: usize) -> &Self {
+        self.x = x;
+        self.y = y;
+        self
+    }
+
+    pub fn render(&self) -> Points {
+        self.points
+            .iter()
+            .map(|p| Point {
+                x: p.x + self.x,
+                y: p.y + self.y,
+                c: p.c,
+            })
+            .collect()
+    }
+    pub fn render_at(&self, x: usize, y: usize) -> Points {
+        self.points
+            .iter()
+            .map(|p| Point {
+                x: p.x + x,
+                y: p.y + y,
+                c: p.c,
+            })
+            .collect()
+    }
+}
 
 const CLEAR: F32x4Rgba = F32x4Rgba {
     r: 0.0,

@@ -5,12 +5,14 @@ use std::{panic, process, thread};
 mod bounce;
 mod display;
 mod leds;
+mod present;
+mod seventeen;
 mod snow;
 mod square;
 // mod null;
 mod terminal;
 
-use display::{Animate, Display, Layer, Points, rgba};
+use display::{rgba, Animate, Display, Layer, Points};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let orig_hook = panic::take_hook();
@@ -26,7 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snow::Snow::new(1, 5),
         snow::Snow::new(2, 6),
-        square::Square::new(rgba(0.5, 0.0, 0.0, 1.0), 5, 4),
+        present::Present::new(2, 15),
+        // square::Square::new(6, 14),
+        seventeen::Seventeen::new(2, 3),
         snow::Snow::new(3, 8),
         snow::Snow::new(4, 20),
         // bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),
@@ -61,7 +65,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         for layer in animated.iter() {
             for point in layer {
-                base.blend(point.x, point.y, point.c)
+                if point.x >= 0
+                    && point.x < display::WIDTH
+                    && point.y >= 0
+                    && point.y < display::HEIGHT
+                {
+                    base.blend(point.x, point.y, point.c)
+                }
             }
         }
         for y in 0..display::HEIGHT {
