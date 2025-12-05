@@ -35,6 +35,8 @@ pub struct SpriteConfig<'a> {
 #[derive(Clone, Debug)]
 pub struct Sprite {
     points: Vec<Point>,
+    pub w: usize,
+    pub h: usize,
     pub x: i32,
     pub y: i32,
 }
@@ -64,6 +66,8 @@ impl Sprite {
             points: points,
             x: 0,
             y: 0,
+            w: pixels[0].len(),
+            h: pixels.len(),
         };
     }
 

@@ -11,14 +11,25 @@ const FLAKE_1: [&str; 5] = [
     "x x x x",
     " x   x ",
 ];
+#[rustfmt::skip]
+const FLAKE_2: [&str; 9] = [
+    "   x x   ",
+    "  x x x  ",
+    " x x x x ",
+    "x x x x x",
+    " x xxx x ",
+    "x x x x x",
+    " x x x x ",
+    "  x x x  ",
+    "   x x   ",
+];
 const COLOURS_1: [SpriteColour; 1] = [(
     "x",
-    // 121,52,18
     Rgba {
-        r: 0.0 / 255f32,
-        g: 255f32 / 255f32,
-        b: 0.0 / 255f32,
-        a: 1.0,
+        r: 157.0 / 255f32,
+        g: 214f32 / 255f32,
+        b: 243.0 / 255f32,
+        a: 0.8,
     },
 )];
 const VY: f32 = 0.010;
@@ -50,36 +61,33 @@ impl Snowflake {
 
 impl Instance {
     fn render(&self) -> Vec<Point> {
-        println!("flake: {} {}", self.x, (self.y * HEIGHT as f32) as usize);
         self.sprite
-            .render_at(self.x, (self.y * HEIGHT as f32) as i32)
+            .render_at(self.x, (self.y * HEIGHT as f32).round() as i32)
     }
 }
 impl Animate for Snowflake {
     fn step(&mut self) -> Points {
         match &mut self.flake {
             Some(flake) => {
-                println!("y: {}, vy: {}", flake.y, flake.vy);
                 flake.y += flake.vy;
-                if flake.y >= 1.0 {
+                if flake.y >= ((HEIGHT as f32 + (flake.sprite.h as f32 / 2.0)) / HEIGHT as f32) {
                     self.flake = None;
                 }
             }
             _ => {
-                println!("NO FLAKE");
-                if self.rng.random::<f32>() < 0.01 {
-                    println!("NEW FLAKE");
-                    println!("new flake");
+                if self.rng.random::<f32>() < 0.11 {
                     let sprite = self
                         .sprites
                         .get(self.rng.random_range(0..self.sprites.len()) as usize)
                         .unwrap();
+
                     let flake = Instance {
                         sprite: Box::new(sprite.clone()),
-                        x: self.rng.random_range(0..(WIDTH - 3)) as i32,
-                        y: -(3.0 / HEIGHT as f32),
+                        x: self.rng.random_range(0..(WIDTH - sprite.w / 2)) as i32,
+                        y: -(sprite.h as f32 / HEIGHT as f32),
                         vy: VY - (VY * 0.6 * self.rng.random::<f32>()),
                     };
+
                     self.flake = Some(flake);
                 }
             }
