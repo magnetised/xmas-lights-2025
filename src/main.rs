@@ -6,10 +6,10 @@ mod bounce;
 mod display;
 mod leds;
 mod present;
+mod reindeer;
 mod seventeen;
 mod snow;
 mod square;
-// mod null;
 mod terminal;
 
 use display::{rgba, Animate, Display, Layer, Points};
@@ -28,9 +28,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snow::Snow::new(1, 5),
         snow::Snow::new(2, 6),
-        present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
-        present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
-        present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
+        reindeer::Reindeer::new(6, 10),
+        // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
+        // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
+        // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
         // square::Square::new(6, 14),
         seventeen::Seventeen::small(1, 1),
         // seventeen::Seventeen::large(2, 3),

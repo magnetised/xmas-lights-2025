@@ -3,7 +3,6 @@ use crate::display::{
 };
 
 #[rustfmt::skip]
-
 const LARGE: [&str; 10] = [
     "  xx  xxxxx",
     " xxx  xxxxx",
