@@ -1,10 +1,10 @@
 use crate::display::{
-    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
+    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
 
 #[rustfmt::skip]
 
-const PIXELS: [&str; 10] = [
+const LARGE: [&str; 10] = [
     "  xx  xxxxx",
     " xxx  xxxxx",
     "  xx     xx",
@@ -15,6 +15,16 @@ const PIXELS: [&str; 10] = [
     "  xx   xx  ",
     " xxxx  xx  ",
     " xxxx  xx  ",
+];
+
+#[rustfmt::skip]
+const SMALL: [&str; 6] = [
+    " xx xxxx",
+    "xxx xxxx",
+    " xx   xx",
+    " xx  xx ",
+    " xx  xx ",
+    "xxxx xx ",
 ];
 
 const COLOURS: [SpriteColour; 1] = [(
@@ -33,8 +43,15 @@ pub struct Seventeen {
 }
 
 impl Seventeen {
-    pub fn new(x: usize, y: usize) -> Box<Self> {
-        let sprite = Sprite::new(&PIXELS, &COLOURS);
+    pub fn large(x: usize, y: usize) -> Box<Self> {
+        let sprite = Sprite::new(&LARGE, COLOURS.to_vec().into_iter());
+        Box::new(Seventeen {
+            points: sprite.render_at(x, y),
+            h: 0.0,
+        })
+    }
+    pub fn small(x: usize, y: usize) -> Box<Self> {
+        let sprite = Sprite::new(&SMALL, COLOURS.to_vec().into_iter());
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             h: 0.0,

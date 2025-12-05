@@ -28,9 +28,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snow::Snow::new(1, 5),
         snow::Snow::new(2, 6),
-        present::Present::new(2, 15),
+        present::Present::large(2, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // square::Square::new(6, 14),
-        seventeen::Seventeen::new(2, 3),
+        seventeen::Seventeen::small(1, 1),
+        // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 8),
         snow::Snow::new(4, 20),
         // bounce::Bounce::random(rgba(1.0, 0.4, 0.0, 1.0)),

@@ -1,19 +1,26 @@
 use crate::display::{Animate, Points, Rgba, Sprite, SpriteColour};
+use std::vec::IntoIter;
 
 #[rustfmt::skip]
-const PIXELS: [&str; 5] = [
+const LARGE: [&str; 5] = [
     "xx0xx",
     "xx0xx",
     "00000",
     "xx0xx",
     "xx0xx",
 ];
+#[rustfmt::skip]
+const SMALL: [&str; 3] = [
+    "x0x",
+    "000",
+    "x0x",
+];
 
 const COLOURS: [SpriteColour; 2] = [
     (
         "x",
         Rgba {
-            r: 1.0,
+            r: 0.8,
             g: 0.0,
             b: 0.0,
             a: 1.0,
@@ -22,8 +29,8 @@ const COLOURS: [SpriteColour; 2] = [
     (
         "0",
         Rgba {
-            r: 1.0,
-            g: 1.0,
+            r: 0.8,
+            g: 0.8,
             b: 0.0,
             a: 1.0,
         },
@@ -35,8 +42,18 @@ pub struct Present {
 }
 
 impl Present {
-    pub fn new(x: usize, y: usize) -> Box<Self> {
-        let sprite = Sprite::new(&PIXELS, &COLOURS);
+    fn colours<'a>(box_colour: Rgba, ribbon_colour: Rgba) -> IntoIter<SpriteColour<'a>> {
+        vec![("x", box_colour), ("0", ribbon_colour)].into_iter()
+    }
+
+    pub fn large(x: usize, y: usize, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
+        let sprite = Sprite::new(&LARGE, Present::colours(box_color, ribbon_colour));
+        Box::new(Present {
+            points: sprite.render_at(x, y),
+        })
+    }
+    pub fn small(x: usize, y: usize, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
+        let sprite = Sprite::new(&SMALL, Present::colours(box_color, ribbon_colour));
         Box::new(Present {
             points: sprite.render_at(x, y),
         })

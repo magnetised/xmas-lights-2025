@@ -3,6 +3,7 @@ use alpha_blend::rgba::F32x4Rgba;
 use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
 use std::collections::HashMap;
+use std::vec::IntoIter;
 
 pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);
@@ -40,11 +41,11 @@ pub struct Sprite {
 const SPACE: char = ' ';
 
 impl Sprite {
-    pub fn new(pixels: &[&str], colours: &[SpriteColour]) -> Self {
+    pub fn new(pixels: &[&str], colours: IntoIter<SpriteColour>) -> Self {
         let mut colour_lut = HashMap::new();
-        for (s, colour) in colours.iter() {
+        for (s, colour) in colours {
             let ch = s.chars().nth(0).unwrap();
-            colour_lut.insert(ch, *colour);
+            colour_lut.insert(ch, colour);
         }
         let mut points: Vec<Point> = Vec::new();
         for (y, l) in pixels.iter().enumerate() {
