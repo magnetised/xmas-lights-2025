@@ -1,15 +1,17 @@
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
 };
 use rand::prelude::*;
 
 #[rustfmt::skip]
-const FLAKE_1: [&str; 5] = [
+const FLAKE_1: [&str; 7] = [
+    "  x x  ",
     " x   x ",
     "x x x x",
     "   x   ",
     "x x x x",
     " x   x ",
+    "  x x  ",
 ];
 #[rustfmt::skip]
 const FLAKE_2: [&str; 9] = [
@@ -29,7 +31,7 @@ const COLOURS_1: [SpriteColour; 1] = [(
         r: 157.0 / 255f32,
         g: 214f32 / 255f32,
         b: 243.0 / 255f32,
-        a: 0.8,
+        a: 0.2,
     },
 )];
 const VY: f32 = 0.010;
@@ -75,7 +77,7 @@ impl Animate for Snowflake {
                 }
             }
             _ => {
-                if self.rng.random::<f32>() < 0.11 {
+                if self.rng.random::<f32>() < 0.01 {
                     let sprite = self
                         .sprites
                         .get(self.rng.random_range(0..self.sprites.len()) as usize)
