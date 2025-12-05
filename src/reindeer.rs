@@ -74,7 +74,7 @@ const COLOURS: [SpriteColour; 4] = [
     ),
 ];
 
-const PERIOD: usize = 16;
+const PERIOD: usize = 12;
 pub struct Reindeer {
     n: usize,
     f: usize,
