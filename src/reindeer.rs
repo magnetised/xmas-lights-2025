@@ -3,21 +3,36 @@ use crate::display::{
 };
 
 #[rustfmt::skip]
-const PIXELS: [&str; 10] = [
-    "a   a    ",
-    "aa aa    ",
-    " a a     ",
-    " rrr     ",
-    "nrrr    r",
-    "rrrrrrrrr",
-    "  rrrrrr ",
-    "  rrrrrr ",
-    "  r    r ",
-    " rr   rr ",
+const FRAME_1: [&str; 10] = [
+    "y   y    ",
+    "yy yy    ",
+    " y y     ",
+    " xxx     ",
+    "oxxx    x",
+    "xxxxxxxxx",
+    "  xxxxxx ",
+    "  xxxxxx ",
+    "  x    x ",
+    " . x  . x",
 ];
-const COLOURS: [SpriteColour; 3] = [
+
+#[rustfmt::skip]
+const FRAME_2: [&str; 10] = [
+    "y   y    ",
+    "yy yy    ",
+    " y y     ",
+    " xxx     ",
+    "oxxx    x",
+    "xxxxxxxxx",
+    "  xxxxxx ",
+    "  xxxxxx ",
+    "  x    x ",
+    " x .  x .",
+];
+
+const COLOURS: [SpriteColour; 4] = [
     (
-        "r",
+        "x",
         // 121,52,18
         Rgba {
             r: 121f32 / 255f32,
@@ -27,7 +42,17 @@ const COLOURS: [SpriteColour; 3] = [
         },
     ),
     (
-        "a",
+        ".",
+        // 121,52,18
+        Rgba {
+            r: 65f32 / 255f32,
+            g: 34f32 / 255f32,
+            b: 17f32 / 255f32,
+            a: 1.0,
+        },
+    ),
+    (
+        "y",
         Rgba {
             // 178,108,47
             r: 178f32 / 255f32,
@@ -37,7 +62,7 @@ const COLOURS: [SpriteColour; 3] = [
         },
     ),
     (
-        "n",
+        "o",
         // 255,0,0
         Rgba {
             r: 1.0,
@@ -49,16 +74,23 @@ const COLOURS: [SpriteColour; 3] = [
 ];
 
 pub struct Reindeer {
-    sprite: Sprite,
+    n: usize,
+    f: usize,
+    frame1: Sprite,
+    frame2: Sprite,
     x: usize,
     y: usize,
 }
 
 impl Reindeer {
     pub fn new(x: usize, y: usize) -> Box<Self> {
-        let sprite = Sprite::new(&PIXELS, COLOURS.to_vec().into_iter());
+        let frame1 = Sprite::new(&FRAME_1, COLOURS.to_vec().into_iter());
+        let frame2 = Sprite::new(&FRAME_2, COLOURS.to_vec().into_iter());
         Box::new(Self {
-            sprite: sprite,
+            n: 0,
+            f: 0,
+            frame1,
+            frame2,
             x,
             y,
         })
@@ -66,6 +98,14 @@ impl Reindeer {
 }
 impl Animate for Reindeer {
     fn step(&mut self) -> Points {
-        self.sprite.render_at(self.x, self.y)
+        self.n += 1;
+        if self.n % 40 == 0 {
+            self.f = (self.f + 1) % 2;
+        }
+        if self.f == 1 {
+            self.frame1.render_at(self.x, self.y)
+        } else {
+            self.frame2.render_at(self.x, self.y)
+        }
     }
 }
