@@ -111,7 +111,6 @@ impl Animate for Reindeer {
         if self.x < -(frame.w as i32) {
             self.x = (WIDTH + 3) as i32;
         }
-        println!("{}", self.x);
         let points = frame.render_at(self.x, self.y);
         points
         // points
