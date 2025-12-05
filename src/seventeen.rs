@@ -1,5 +1,5 @@
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
 };
 
 #[rustfmt::skip]
@@ -44,11 +44,11 @@ impl Seventeen {
 
 impl Animate for Seventeen {
     fn step(&mut self) -> Points {
-        self.h += 0.5;
+        self.h = (self.h + 0.5) % 360.0;
         let hsva = HSVa {
             h: self.h,
             s: 1.0,
-            v: 1.0,
+            v: 0.5,
             a: 1.0,
         };
         let rgba = hsv_to_rgb(hsva);
