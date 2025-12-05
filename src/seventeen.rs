@@ -42,14 +42,14 @@ pub struct Seventeen {
 }
 
 impl Seventeen {
-    pub fn large(x: usize, y: usize) -> Box<Self> {
+    pub fn large(x: i32, y: i32) -> Box<Self> {
         let sprite = Sprite::new(&LARGE, COLOURS.to_vec().into_iter());
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             h: 0.0,
         })
     }
-    pub fn small(x: usize, y: usize) -> Box<Self> {
+    pub fn small(x: i32, y: i32) -> Box<Self> {
         let sprite = Sprite::new(&SMALL, COLOURS.to_vec().into_iter());
         Box::new(Seventeen {
             points: sprite.render_at(x, y),

@@ -84,8 +84,8 @@ impl Animate for Bounce {
         }
 
         return vec![Point {
-            x: self.x.round() as usize,
-            y: self.y.round() as usize,
+            x: self.x.round() as i32,
+            y: self.y.round() as i32,
             c: self.colour,
         }];
     }

@@ -46,13 +46,13 @@ impl Present {
         vec![("x", box_colour), ("0", ribbon_colour)].into_iter()
     }
 
-    pub fn large(x: usize, y: usize, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
+    pub fn large(x: i32, y: i32, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
         let sprite = Sprite::new(&LARGE, Present::colours(box_color, ribbon_colour));
         Box::new(Present {
             points: sprite.render_at(x, y),
         })
     }
-    pub fn small(x: usize, y: usize, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
+    pub fn small(x: i32, y: i32, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
         let sprite = Sprite::new(&SMALL, Present::colours(box_color, ribbon_colour));
         Box::new(Present {
             points: sprite.render_at(x, y),

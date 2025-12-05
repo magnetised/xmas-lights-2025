@@ -9,6 +9,7 @@ mod present;
 mod reindeer;
 mod seventeen;
 mod snow;
+mod snowflake;
 mod square;
 mod terminal;
 
@@ -27,8 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snow::Snow::new(1, 5),
-        snow::Snow::new(2, 6),
         reindeer::Reindeer::new(6, 10),
+        snowflake::Snowflake::new(),
+        snow::Snow::new(2, 6),
         // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
@@ -54,11 +56,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         for layer in animated.iter() {
             for point in layer {
                 if point.x >= 0
-                    && point.x < display::WIDTH
+                    && point.x < display::WIDTH as i32
                     && point.y >= 0
-                    && point.y < display::HEIGHT
+                    && point.y < display::HEIGHT as i32
                 {
-                    base.blend(point.x, point.y, point.c)
+                    base.blend(point.x as usize, point.y as usize, point.c)
                 }
             }
         }

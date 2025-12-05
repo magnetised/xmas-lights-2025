@@ -2,7 +2,7 @@ use crate::display::{Animate, Point, Rgba, HEIGHT, WIDTH};
 use rand::prelude::*;
 
 struct Flake {
-    x: usize,
+    x: i32,
     y: f32,
     vy: f32,
 }
@@ -27,7 +27,7 @@ const WHITE: Rgba = Rgba {
 const VY: f32 = 0.010;
 
 impl Flake {
-    fn new(x: usize, vy: f32) -> Self {
+    fn new(x: i32, vy: f32) -> Self {
         Flake { x, y: 0.0, vy }
     }
 }
@@ -53,8 +53,8 @@ impl Snow {
             vy,
         })
     }
-    fn random_x(&mut self) -> usize {
-        self.rng.random_range(0..WIDTH) as usize
+    fn random_x(&mut self) -> i32 {
+        self.rng.random_range(0..WIDTH) as i32
     }
     fn random_vy(&mut self) -> f32 {
         self.vy - (self.vy * 0.6 * self.rng.random::<f32>())
@@ -78,7 +78,7 @@ impl Animate for Snow {
             .iter()
             .map(|flake| Point {
                 x: flake.x,
-                y: (flake.y * (HEIGHT - 1) as f32).round() as usize,
+                y: (flake.y * (HEIGHT - 1) as f32).round() as i32,
                 c: self.colour,
             })
             .collect()

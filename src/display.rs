@@ -20,8 +20,8 @@ pub const BLACK: Rgb = (0, 0, 0);
 
 #[derive(Clone, Copy, Debug)]
 pub struct Point {
-    pub x: usize,
-    pub y: usize,
+    pub x: i32,
+    pub y: i32,
     pub c: Rgba,
 }
 pub type Points = Vec<Point>;
@@ -32,10 +32,11 @@ pub struct SpriteConfig<'a> {
     pub colours: Vec<SpriteColour<'a>>,
 }
 
+#[derive(Clone, Debug)]
 pub struct Sprite {
     points: Vec<Point>,
-    pub x: usize,
-    pub y: usize,
+    pub x: i32,
+    pub y: i32,
 }
 
 const SPACE: char = ' ';
@@ -52,8 +53,8 @@ impl Sprite {
             for (x, c) in l.chars().enumerate() {
                 if c != SPACE {
                     points.push(Point {
-                        x,
-                        y,
+                        x: x as i32,
+                        y: y as i32,
                         c: *colour_lut.get(&c).unwrap(),
                     })
                 }
@@ -66,7 +67,7 @@ impl Sprite {
         };
     }
 
-    pub fn position(&mut self, x: usize, y: usize) -> &Self {
+    pub fn position(&mut self, x: i32, y: i32) -> &Self {
         self.x = x;
         self.y = y;
         self
@@ -82,7 +83,7 @@ impl Sprite {
             })
             .collect()
     }
-    pub fn render_at(&self, x: usize, y: usize) -> Points {
+    pub fn render_at(&self, x: i32, y: i32) -> Points {
         self.points
             .iter()
             .map(|p| Point {

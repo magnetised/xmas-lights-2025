@@ -78,12 +78,12 @@ pub struct Reindeer {
     f: usize,
     frame1: Sprite,
     frame2: Sprite,
-    x: usize,
-    y: usize,
+    x: i32,
+    y: i32,
 }
 
 impl Reindeer {
-    pub fn new(x: usize, y: usize) -> Box<Self> {
+    pub fn new(x: i32, y: i32) -> Box<Self> {
         let frame1 = Sprite::new(&FRAME_1, COLOURS.to_vec().into_iter());
         let frame2 = Sprite::new(&FRAME_2, COLOURS.to_vec().into_iter());
         Box::new(Self {
