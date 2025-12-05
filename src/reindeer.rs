@@ -82,12 +82,15 @@ pub struct Reindeer {
     x: i32,
     y: i32,
     a: f32,
+    v: i32,
+    w: usize,
 }
 
 impl Reindeer {
     pub fn new(x: i32, y: i32) -> Box<Self> {
         let frame1 = Sprite::new(&FRAME_1, COLOURS.to_vec().into_iter());
         let frame2 = Sprite::new(&FRAME_2, COLOURS.to_vec().into_iter());
+        let w = frame1.w;
         let mut rng = rand::rng();
         Box::new(Self {
             n: rng.random_range(0..PERIOD as usize),
@@ -96,6 +99,8 @@ impl Reindeer {
             x,
             y,
             a: 1.0,
+            v: -1,
+            w: w,
         })
     }
 }
@@ -105,23 +110,17 @@ impl Animate for Reindeer {
         self.a = (self.a + 0.01) % 100.0;
         if self.n == 0 {
             self.f = (self.f + 1) % 2;
-            self.x -= 1;
+            self.x += self.v;
+        }
+
+        if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
+            self.v = -self.v;
+            for frame in self.frames.iter_mut() {
+                frame.flip();
+            }
         }
         let frame = self.frames.get(self.f).unwrap();
-        if self.x < -(frame.w as i32) {
-            self.x = (WIDTH + 3) as i32;
-        }
         let points = frame.render_at(self.x, self.y);
         points
-        // points
-        //     .iter()
-        //     .map(|p| Point {
-        //         c: Rgba {
-        //             a: self.a / 100.0,
-        //             ..p.c
-        //         },
-        //         ..*p
-        //     })
-        //     .collect()
     }
 }

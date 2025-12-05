@@ -2,6 +2,7 @@ use alpha_blend::rgba::F32x4Rgba;
 // use alpha_blend::{BlendMode, RgbaBlend};
 use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
+use prisma::channel::NormalBoundedChannel;
 use std::collections::HashMap;
 use std::vec::IntoIter;
 
@@ -32,6 +33,12 @@ pub struct SpriteConfig<'a> {
     pub colours: Vec<SpriteColour<'a>>,
 }
 
+#[derive(Clone, Copy, Debug)]
+enum Direction {
+    Normal,
+    Flipped,
+}
+
 #[derive(Clone, Debug)]
 pub struct Sprite {
     points: Vec<Point>,
@@ -39,6 +46,7 @@ pub struct Sprite {
     pub h: usize,
     pub x: i32,
     pub y: i32,
+    d: Direction,
 }
 
 const SPACE: char = ' ';
@@ -68,6 +76,7 @@ impl Sprite {
             y: 0,
             w: pixels[0].len(),
             h: pixels.len(),
+            d: Direction::Normal,
         };
     }
 
@@ -77,23 +86,32 @@ impl Sprite {
         self
     }
 
-    pub fn render(&self) -> Points {
-        self.points
-            .iter()
-            .map(|p| Point {
-                x: p.x + self.x,
-                y: p.y + self.y,
-                c: p.c,
-            })
-            .collect()
+    pub fn flip(&mut self) -> &Self {
+        self.d = match self.d {
+            Direction::Normal => Direction::Flipped,
+            Direction::Flipped => Direction::Normal,
+        };
+        self
     }
+
+    pub fn render(&self) -> Points {
+        self.render_at(self.x, self.y)
+    }
+
     pub fn render_at(&self, x: i32, y: i32) -> Points {
         self.points
             .iter()
-            .map(|p| Point {
-                x: p.x + x,
-                y: p.y + y,
-                c: p.c,
+            .map(|p| match self.d {
+                Direction::Normal => Point {
+                    x: (p.x + x),
+                    y: p.y + y,
+                    c: p.c,
+                },
+                Direction::Flipped => Point {
+                    x: ((self.w as i32 - p.x) + x),
+                    y: p.y + y,
+                    c: p.c,
+                },
             })
             .collect()
     }
