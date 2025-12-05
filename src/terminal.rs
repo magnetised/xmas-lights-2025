@@ -16,6 +16,8 @@ impl Display for Terminal {
     fn render(&mut self, grid: &Array2D<Rgb>) {
         const CHARACTER: &str = "█";
 
+        let line = " ".repeat(WIDTH);
+
         print!("\x1B[?25l");
         print!("\x1B[2J\x1B[1;1H");
 
@@ -28,11 +30,12 @@ impl Display for Terminal {
                 // println!("r: {}; g: {}; b: {}", r, g, b);
                 let colour = format!("{};{};{}", r, g, b);
                 row.push(format!(
-                    "\x1B[38;2;{0}m{1}{1}{1}{1}{1}{1}\x1B[0m",
+                    // "\x1B[38;2;{0}m{1}{1}{1}{1}{1}{1}\x1B[0m",
+                    "\x1B[38;2;{0}m{1}     \x1B[0m",
                     colour, CHARACTER
                 ));
             }
-            print!("{}\n{}\n{}\n", row.join(""), row.join(""), row.join(""));
+            print!("{}\n{}\n{}\n", line, row.join(""), line);
         }
 
         // let mut lights: Vec<String> = Vec::with_capacity(bins.len());
