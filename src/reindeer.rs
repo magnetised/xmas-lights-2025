@@ -1,6 +1,7 @@
 use crate::display::{
-    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
+    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
+use rand::prelude::*;
 
 #[rustfmt::skip]
 const FRAME_1: [&str; 10] = [
@@ -73,11 +74,11 @@ const COLOURS: [SpriteColour; 4] = [
     ),
 ];
 
+const PERIOD: usize = 16;
 pub struct Reindeer {
     n: usize,
     f: usize,
-    frame1: Sprite,
-    frame2: Sprite,
+    frames: Vec<Sprite>,
     x: i32,
     y: i32,
     a: f32,
@@ -87,11 +88,11 @@ impl Reindeer {
     pub fn new(x: i32, y: i32) -> Box<Self> {
         let frame1 = Sprite::new(&FRAME_1, COLOURS.to_vec().into_iter());
         let frame2 = Sprite::new(&FRAME_2, COLOURS.to_vec().into_iter());
+        let mut rng = rand::rng();
         Box::new(Self {
-            n: 0,
+            n: rng.random_range(0..PERIOD as usize),
             f: 0,
-            frame1,
-            frame2,
+            frames: vec![frame1, frame2],
             x,
             y,
             a: 1.0,
@@ -100,16 +101,18 @@ impl Reindeer {
 }
 impl Animate for Reindeer {
     fn step(&mut self) -> Points {
-        self.n += 1;
+        self.n = (self.n + 1) % PERIOD;
         self.a = (self.a + 0.01) % 100.0;
-        if self.n % 20 == 0 {
+        if self.n == 0 {
             self.f = (self.f + 1) % 2;
+            self.x -= 1;
         }
-        let points = if self.f == 1 {
-            self.frame1.render_at(self.x, self.y)
-        } else {
-            self.frame2.render_at(self.x, self.y)
-        };
+        let frame = self.frames.get(self.f).unwrap();
+        if self.x < -(frame.w as i32) {
+            self.x = (WIDTH + 3) as i32;
+        }
+        println!("{}", self.x);
+        let points = frame.render_at(self.x, self.y);
         points
         // points
         //     .iter()
