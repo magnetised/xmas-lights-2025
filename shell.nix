@@ -112,7 +112,7 @@ mkShell {
     prisma-engines
     # keep in sync with version installed by ci in
     # .github/workflows/satellite_proto.yml
-    protobuf_26
+    protobuf
     bun
     inotify-tools
     # next-ls
@@ -138,6 +138,6 @@ mkShell {
   # https://nixos.wiki/wiki/Development_environment_with_nix-shell
   # NIX_ENFORCE_PURITY lets me cc things
   GEMINI_API_KEY = "AIzaSyAXGmw12owFCCwmvBr-RzsE3eUuMb5Px_A";
-  LIBCLANG_PATH = "${pkgs.llvmPackages_16.libclang.lib}/lib";
+  LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
 
 }
