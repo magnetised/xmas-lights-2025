@@ -1,34 +1,34 @@
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
 };
 use rand::prelude::*;
 
 #[rustfmt::skip]
 const FRAME_1: [&str; 10] = [
-    "y   y    ",
-    "yy yy    ",
-    " y y     ",
-    " xxx     ",
-    "oxxx    x",
-    "xxxxxxxxx",
-    "  xxxxxx ",
-    "  xxxxxx ",
-    "  x    x ",
-    " . x  . x",
+    "y   y     ",
+    "yy yy     ",
+    " y y      ",
+    " xxx      ",
+    "oxxx    x ",
+    "xxxxxxxxx ",
+    "  xxxxxx  ",
+    "  xxxxxx  ",
+    "  x    x  ",
+    " . x  . x ",
 ];
 
 #[rustfmt::skip]
 const FRAME_2: [&str; 10] = [
-    "y   y    ",
-    "yy yy    ",
-    " y y     ",
-    " xxx     ",
-    "oxxx    x",
-    "xxxxxxxxx",
-    "  xxxxxx ",
-    "  xxxxxx ",
-    "  x    x ",
-    " x .  x .",
+    "y   y     ",
+    "yy yy     ",
+    " y y      ",
+    " xxx      ",
+    "oxxx      ",
+    "xxxxxxxxxx",
+    "  xxxxxx  ",
+    "  xxxxxx  ",
+    "  x    x  ",
+    " x .  x . ",
 ];
 
 const COLOURS: [SpriteColour; 4] = [
@@ -46,9 +46,9 @@ const COLOURS: [SpriteColour; 4] = [
         ".",
         // 121,52,18
         Rgba {
-            r: 60f32 / 255f32,
-            g: 30f32 / 255f32,
-            b: 12f32 / 255f32,
+            r: 30f32 / 255f32,
+            g: 15f32 / 255f32,
+            b: 5f32 / 255f32,
             a: 1.0,
         },
     ),
