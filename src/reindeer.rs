@@ -1,6 +1,7 @@
 use crate::display::{
-    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
+    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
+use crate::train::{PartWidth, TrainPart};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -110,17 +111,25 @@ impl Animate for Reindeer {
         self.a = (self.a + 0.01) % 100.0;
         if self.n == 0 {
             self.f = (self.f + 1) % 2;
-            self.x += self.v;
+            // self.x += self.v;
         }
 
         if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
             self.v = -self.v;
-            for frame in self.frames.iter_mut() {
-                frame.flip();
-            }
+            // for frame in self.frames.iter_mut() {
+            //     frame.flip();
+            // }
         }
         let frame = self.frames.get(self.f).unwrap();
         let points = frame.render_at(self.x, self.y);
         points
     }
 }
+
+impl PartWidth for Reindeer {
+    fn width(&self) -> usize {
+        self.w
+    }
+}
+
+impl TrainPart for Reindeer {}

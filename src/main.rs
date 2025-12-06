@@ -12,8 +12,10 @@ mod snow;
 mod snowflake;
 mod square;
 mod terminal;
+mod train;
 
 use display::{rgba, Animate, Display, Layer, Points};
+use train::board;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let orig_hook = panic::take_hook();
@@ -29,7 +31,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut layers: Vec<Box<dyn Animate>> = vec![
         snowflake::Snowflake::new(),
         snow::Snow::new(1, 5),
-        reindeer::Reindeer::new(6, 10),
+        train::Train::new(
+            vec![
+                board(reindeer::Reindeer::new(0, 0), 0, 0),
+                board(reindeer::Reindeer::new(0, 0), 12, 0),
+                board(reindeer::Reindeer::new(0, 0), 24, -1),
+            ],
+            10,
+        ),
         snow::Snow::new(2, 6),
         // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
