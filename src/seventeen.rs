@@ -39,6 +39,7 @@ const COLOURS: [SpriteColour; 1] = [(
 pub struct Seventeen {
     points: Points,
     h: f32,
+    w: usize,
 }
 
 impl Seventeen {
@@ -47,6 +48,7 @@ impl Seventeen {
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             h: 0.0,
+            w: sprite.w,
         })
     }
     pub fn small(x: i32, y: i32) -> Box<Self> {
@@ -54,6 +56,7 @@ impl Seventeen {
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             h: 0.0,
+            w: sprite.w,
         })
     }
 }
@@ -74,5 +77,8 @@ impl Animate for Seventeen {
             .map(|p| Point { c: rgba, ..*p })
             .collect();
         return p;
+    }
+    fn width(&self) -> usize {
+        self.w
     }
 }

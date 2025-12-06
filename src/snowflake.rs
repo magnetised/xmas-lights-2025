@@ -1,5 +1,5 @@
 use crate::display::{
-    Animate, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, hsv_to_rgb,
+    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
 use rand::prelude::*;
 
@@ -48,15 +48,18 @@ pub struct Snowflake {
     flake: Option<Instance>,
     sprites: Vec<Sprite>,
     rng: Box<dyn rand::RngCore>,
+    w: usize,
 }
 
 impl Snowflake {
     pub fn new() -> Box<Self> {
         let sprite1 = Sprite::new(&FLAKE_1, COLOURS_1.to_vec().into_iter());
+        let w = sprite1.w;
         Box::new(Self {
             flake: None,
             sprites: vec![sprite1],
             rng: Box::new(rand::rng()),
+            w: w,
         })
     }
 }
@@ -98,5 +101,8 @@ impl Animate for Snowflake {
             Some(flake) => flake.render().clone(),
             _ => vec![],
         }
+    }
+    fn width(&self) -> usize {
+        WIDTH
     }
 }

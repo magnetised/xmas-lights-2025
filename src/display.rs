@@ -53,6 +53,10 @@ const SPACE: char = ' ';
 
 impl Sprite {
     pub fn new(pixels: &[&str], colours: IntoIter<SpriteColour>) -> Self {
+        Self::new_at(pixels, colours, 0, 0)
+    }
+
+    pub fn new_at(pixels: &[&str], colours: IntoIter<SpriteColour>, x: i32, y: i32) -> Self {
         let mut colour_lut = HashMap::new();
         for (s, colour) in colours {
             let ch = s.chars().nth(0).unwrap();
@@ -72,8 +76,8 @@ impl Sprite {
         }
         return Sprite {
             points: points,
-            x: 0,
-            y: 0,
+            x,
+            y,
             w: pixels[0].len(),
             h: pixels.len(),
             d: Direction::Normal,
@@ -117,6 +121,15 @@ impl Sprite {
     }
 }
 
+impl Animate for Sprite {
+    fn step(&mut self) -> Points {
+        self.render()
+    }
+    fn width(&self) -> usize {
+        self.w
+    }
+}
+
 const CLEAR: F32x4Rgba = F32x4Rgba {
     r: 0.0,
     g: 0.0,
@@ -132,6 +145,7 @@ pub trait Display {
 
 pub trait Animate {
     fn step(&mut self) -> Vec<Point>;
+    fn width(&self) -> usize;
 }
 
 #[derive(Clone, Debug)]

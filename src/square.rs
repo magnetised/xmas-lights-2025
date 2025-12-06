@@ -33,4 +33,7 @@ impl Animate for Square {
     fn step(&mut self) -> Points {
         return self.points.clone();
     }
+    fn width(&self) -> usize {
+        4
+    }
 }

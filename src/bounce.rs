@@ -89,4 +89,7 @@ impl Animate for Bounce {
             c: self.colour,
         }];
     }
+    fn width(&self) -> usize {
+        WIDTH
+    }
 }

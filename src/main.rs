@@ -2,6 +2,7 @@ use std::time::Duration;
 
 use std::{panic, process, thread};
 
+mod animation;
 mod bounce;
 mod display;
 mod leds;

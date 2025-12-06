@@ -1,7 +1,7 @@
+use crate::animation::Animation;
 use crate::display::{
     hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
-use crate::train::{PartWidth, TrainPart};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -88,48 +88,43 @@ pub struct Reindeer {
 }
 
 impl Reindeer {
-    pub fn new(x: i32, y: i32) -> Box<Self> {
-        let frame1 = Sprite::new(&FRAME_1, COLOURS.to_vec().into_iter());
-        let frame2 = Sprite::new(&FRAME_2, COLOURS.to_vec().into_iter());
-        let w = frame1.w;
-        let mut rng = rand::rng();
-        Box::new(Self {
-            n: rng.random_range(0..PERIOD as usize),
-            f: 0,
-            frames: vec![frame1, frame2],
-            x,
-            y,
-            a: 1.0,
-            v: -1,
-            w: w,
-        })
+    pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
+        let frame1 = Sprite::new_at(&FRAME_1, COLOURS.to_vec().into_iter(), x, y);
+        let frame2 = Sprite::new_at(&FRAME_2, COLOURS.to_vec().into_iter(), x, y);
+
+        Animation::new(vec![Box::new(frame1), Box::new(frame2)], 12)
+
+        // let w = frame1.w;
+        // let mut rng = rand::rng();
+        // Box::new(Self {
+        //     n: rng.random_range(0..PERIOD as usize),
+        //     f: 0,
+        //     frames: vec![frame1, frame2],
+        //     x,
+        //     y,
+        //     a: 1.0,
+        //     v: -1,
+        //     w: w,
+        // })
     }
 }
-impl Animate for Reindeer {
-    fn step(&mut self) -> Points {
-        self.n = (self.n + 1) % PERIOD;
-        self.a = (self.a + 0.01) % 100.0;
-        if self.n == 0 {
-            self.f = (self.f + 1) % 2;
-            // self.x += self.v;
-        }
-
-        if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
-            self.v = -self.v;
-            // for frame in self.frames.iter_mut() {
-            //     frame.flip();
-            // }
-        }
-        let frame = self.frames.get(self.f).unwrap();
-        let points = frame.render_at(self.x, self.y);
-        points
-    }
-}
-
-impl PartWidth for Reindeer {
-    fn width(&self) -> usize {
-        self.w
-    }
-}
-
-impl TrainPart for Reindeer {}
+// impl Animate for Reindeer {
+//     fn step(&mut self) -> Points {
+//         self.n = (self.n + 1) % PERIOD;
+//         self.a = (self.a + 0.01) % 100.0;
+//         if self.n == 0 {
+//             self.f = (self.f + 1) % 2;
+//             // self.x += self.v;
+//         }
+//
+//         if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
+//             self.v = -self.v;
+//             // for frame in self.frames.iter_mut() {
+//             //     frame.flip();
+//             // }
+//         }
+//         let frame = self.frames.get(self.f).unwrap();
+//         let points = frame.render_at(self.x, self.y);
+//         points
+//     }
+// }

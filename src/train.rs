@@ -4,12 +4,6 @@ use crate::display::{
 
 const PERIOD: usize = 12;
 
-pub trait PartWidth {
-    fn width(&self) -> usize;
-}
-
-pub trait TrainPart: Animate + PartWidth {}
-
 pub struct Train {
     parts: Vec<Part>,
     x: i32,
@@ -21,12 +15,12 @@ pub struct Train {
 }
 
 pub struct Part {
-    part: Box<dyn TrainPart>,
+    part: Box<dyn Animate>,
     x: i32,
     y: i32,
 }
 
-pub fn board(part: Box<dyn TrainPart>, x: i32, y: i32) -> Part {
+pub fn board(part: Box<dyn Animate>, x: i32, y: i32) -> Part {
     Part { part, x, y }
 }
 
@@ -56,6 +50,9 @@ impl Animate for Part {
             })
             .collect()
     }
+    fn width(&self) -> usize {
+        self.part.width()
+    }
 }
 impl Part {
     fn width(&self) -> usize {
@@ -75,13 +72,14 @@ impl Animate for Train {
             }
             p.x = p.x + self.x;
             p.y = p.y + self.y;
-            // going right - reversed
         });
-        println!("{} {} {}", self.x, self.v, self.w);
         if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
             self.v = -self.v;
             println!("FLIP {}", self.v);
         }
         points
+    }
+    fn width(&self) -> usize {
+        self.w
     }
 }

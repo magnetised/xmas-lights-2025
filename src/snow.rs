@@ -83,4 +83,7 @@ impl Animate for Snow {
             })
             .collect()
     }
+    fn width(&self) -> usize {
+        WIDTH
+    }
 }
