@@ -2,7 +2,7 @@ use crate::display::{
     hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
 
-const PERIOD: usize = 6;
+const PERIOD: usize = 10;
 
 pub struct Train {
     parts: Vec<Part>,
@@ -83,7 +83,6 @@ impl Animate for Train {
         });
         if (self.v < 0 && self.x < -(self.w as i32 + 4)) || (self.v > 0 && self.x > WIDTH as i32) {
             self.v = -self.v;
-            println!("FLIP {}", self.v);
         }
         points
     }
