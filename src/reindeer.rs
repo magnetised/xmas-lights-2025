@@ -1,7 +1,5 @@
 use crate::animation::Animation;
-use crate::display::{
-    darken, rgba, Animate, Rgba, Sprite, SpriteColour,
-};
+use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -75,17 +73,7 @@ const COLOURS: [SpriteColour; 4] = [
     ),
 ];
 
-const PERIOD: usize = 12;
-pub struct Reindeer {
-    n: usize,
-    f: usize,
-    frames: Vec<Sprite>,
-    x: i32,
-    y: i32,
-    a: f32,
-    v: i32,
-    w: usize,
-}
+pub struct Reindeer {}
 
 impl Reindeer {
     fn random_fur_colour() -> Rgba {
@@ -120,23 +108,3 @@ impl Reindeer {
         Animation::new(vec![Box::new(frame1), Box::new(frame2)], 12)
     }
 }
-// impl Animate for Reindeer {
-//     fn step(&mut self) -> Points {
-//         self.n = (self.n + 1) % PERIOD;
-//         self.a = (self.a + 0.01) % 100.0;
-//         if self.n == 0 {
-//             self.f = (self.f + 1) % 2;
-//             // self.x += self.v;
-//         }
-//
-//         if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
-//             self.v = -self.v;
-//             // for frame in self.frames.iter_mut() {
-//             //     frame.flip();
-//             // }
-//         }
-//         let frame = self.frames.get(self.f).unwrap();
-//         let points = frame.render_at(self.x, self.y);
-//         points
-//     }
-// }
