@@ -1,6 +1,7 @@
 use crate::animation::Animation;
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    darken, hsv_to_rgb, rgba, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT,
+    WIDTH,
 };
 use rand::prelude::*;
 
@@ -32,16 +33,16 @@ const FRAME_2: [&str; 10] = [
     " x .  x . ",
 ];
 
+const FUR: Rgba = Rgba {
+    r: 121f32 / 255f32,
+    g: 52f32 / 255f32,
+    b: 18f32 / 255f32,
+    a: 1.0,
+};
 const COLOURS: [SpriteColour; 4] = [
     (
-        "x",
-        // 121,52,18
-        Rgba {
-            r: 121f32 / 255f32,
-            g: 52f32 / 255f32,
-            b: 18f32 / 255f32,
-            a: 1.0,
-        },
+        "x", // 121,52,18
+        FUR,
     ),
     (
         ".",
@@ -88,24 +89,36 @@ pub struct Reindeer {
 }
 
 impl Reindeer {
+    fn random_fur_colour() -> Rgba {
+        let mut rng = rand::rng();
+        darken(FUR, 0.5 + 0.25 * (rng.random::<f32>()))
+    }
+    fn random_colour(original: Rgba) -> Rgba {
+        let mut rng = rand::rng();
+        darken(original, 0.5 + 0.25 * (rng.random::<f32>()))
+    }
+    pub fn rudolf(x: i32, y: i32) -> Box<dyn Animate> {
+        Self::new_with_colours(x, y, rgba(1.0, 0.0, 0.0, 1.0), FUR)
+    }
     pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
-        let frame1 = Sprite::new_at(&FRAME_1, COLOURS.to_vec().into_iter(), x, y);
-        let frame2 = Sprite::new_at(&FRAME_2, COLOURS.to_vec().into_iter(), x, y);
+        let fur = Self::random_fur_colour();
+        let nose = Self::random_colour(fur);
+        Self::new_with_colours(x, y, nose, Self::random_fur_colour())
+    }
+    pub fn new_with_colours(x: i32, y: i32, nose: Rgba, fur: Rgba) -> Box<dyn Animate> {
+        let colours: Vec<SpriteColour> = COLOURS
+            .iter()
+            .map(|colour| match colour {
+                ("o", _c) => ("o", nose),
+                ("x", _c) => ("x", fur),
+                other => *other,
+            })
+            .collect();
+
+        let frame1 = Sprite::new_at(&FRAME_1, colours.clone().into_iter(), x, y);
+        let frame2 = Sprite::new_at(&FRAME_2, colours.into_iter(), x, y);
 
         Animation::new(vec![Box::new(frame1), Box::new(frame2)], 12)
-
-        // let w = frame1.w;
-        // let mut rng = rand::rng();
-        // Box::new(Self {
-        //     n: rng.random_range(0..PERIOD as usize),
-        //     f: 0,
-        //     frames: vec![frame1, frame2],
-        //     x,
-        //     y,
-        //     a: 1.0,
-        //     v: -1,
-        //     w: w,
-        // })
     }
 }
 // impl Animate for Reindeer {

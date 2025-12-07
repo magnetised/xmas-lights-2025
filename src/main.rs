@@ -34,9 +34,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         snow::Snow::new(1, 5),
         train::Train::new(
             vec![
-                board(reindeer::Reindeer::new(0, 0), 0, 0),
+                board(reindeer::Reindeer::rudolf(0, 0), 0, 0),
                 board(reindeer::Reindeer::new(0, 0), 12, 0),
                 board(reindeer::Reindeer::new(0, 0), 24, -1),
+                board(reindeer::Reindeer::new(0, 0), 36, 0),
             ],
             10,
         ),

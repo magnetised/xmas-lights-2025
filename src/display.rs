@@ -217,6 +217,14 @@ pub fn rgb_to_hsv(color: Rgba) -> HSVa {
     }
 }
 
+pub fn darken(colour: Rgba, reduce: f32) -> Rgba {
+    let hsv = rgb_to_hsv(colour);
+    hsv_to_rgb(HSVa {
+        v: hsv.v * reduce,
+        ..hsv
+    })
+}
+
 pub fn hsv_to_rgb(hsv: HSVa) -> Rgba {
     let c = hsv.v * hsv.s;
     let h_prime = hsv.h / 60.0;
