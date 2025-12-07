@@ -1,7 +1,6 @@
 use crate::animation::Animation;
 use crate::display::{
-    darken, hsv_to_rgb, rgba, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT,
-    WIDTH,
+    darken, rgba, Animate, Rgba, Sprite, SpriteColour,
 };
 use rand::prelude::*;
 

@@ -1,5 +1,5 @@
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour,
 };
 
 #[rustfmt::skip]

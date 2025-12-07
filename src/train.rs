@@ -1,5 +1,5 @@
 use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
+    Animate, Point, Points, WIDTH,
 };
 
 const PERIOD: usize = 10;

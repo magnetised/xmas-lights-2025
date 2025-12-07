@@ -1,4 +1,4 @@
-use crate::display::{Animate, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH};
+use crate::display::{Animate, Points, Rgba, Sprite, SpriteColour};
 
 #[rustfmt::skip]
 const PIXELS: [&str; 3] = [

@@ -2,7 +2,6 @@ use alpha_blend::rgba::F32x4Rgba;
 // use alpha_blend::{BlendMode, RgbaBlend};
 use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
-use prisma::channel::NormalBoundedChannel;
 use std::collections::HashMap;
 use std::vec::IntoIter;
 
