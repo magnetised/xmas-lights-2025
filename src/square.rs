@@ -36,4 +36,7 @@ impl Animate for Square {
     fn width(&self) -> usize {
         4
     }
+    fn height(&self) -> usize {
+        3
+    }
 }

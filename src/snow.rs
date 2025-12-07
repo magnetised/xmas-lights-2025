@@ -86,4 +86,7 @@ impl Animate for Snow {
     fn width(&self) -> usize {
         WIDTH
     }
+    fn height(&self) -> usize {
+        HEIGHT
+    }
 }

@@ -9,13 +9,14 @@ mod leds;
 mod present;
 mod reindeer;
 mod seventeen;
+mod sleigh;
 mod snow;
 mod snowflake;
 mod square;
 mod terminal;
 mod train;
 
-use display::{rgba, Animate, Display, Layer, Points};
+use display::{rgba, Animate, Display, Group, Layer, Points};
 use train::board;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -38,6 +39,34 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 board(reindeer::Reindeer::new(0, 0), 12, 0),
                 board(reindeer::Reindeer::new(0, 0), 24, -1),
                 board(reindeer::Reindeer::new(0, 0), 36, 0),
+                board(
+                    sleigh::Sleigh::new(
+                        Group::new(vec![
+                            present::Present::large(
+                                2,
+                                0,
+                                rgba(0.8, 0.0, 0.0, 1.0),
+                                rgba(0.8, 0.8, 0.0, 1.0),
+                            ),
+                            present::Present::small(
+                                4,
+                                -3,
+                                rgba(0.0, 0.8, 0.0, 1.0),
+                                rgba(0.8, 0.8, 0.8, 1.0),
+                            ),
+                            present::Present::small(
+                                8,
+                                2,
+                                rgba(0.8, 0.5, 0.3, 1.0),
+                                rgba(0.8, 0.0, 0.8, 1.0),
+                            ),
+                        ]),
+                        0,
+                        0,
+                    ),
+                    48,
+                    1,
+                ),
             ],
             10,
         ),

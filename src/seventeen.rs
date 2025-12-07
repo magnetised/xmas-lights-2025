@@ -38,8 +38,9 @@ const COLOURS: [SpriteColour; 1] = [(
 
 pub struct Seventeen {
     points: Points,
-    h: f32,
+    hue: f32,
     w: usize,
+    h: usize,
 }
 
 impl Seventeen {
@@ -47,25 +48,27 @@ impl Seventeen {
         let sprite = Sprite::new(&LARGE, COLOURS.to_vec().into_iter());
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
-            h: 0.0,
+            hue: 0.0,
             w: sprite.w,
+            h: sprite.h,
         })
     }
     pub fn small(x: i32, y: i32) -> Box<Self> {
         let sprite = Sprite::new(&SMALL, COLOURS.to_vec().into_iter());
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
-            h: 0.0,
+            hue: 0.0,
             w: sprite.w,
+            h: sprite.h,
         })
     }
 }
 
 impl Animate for Seventeen {
     fn step(&mut self) -> Points {
-        self.h = (self.h + 0.5) % 360.0;
+        self.hue = (self.hue + 0.5) % 360.0;
         let hsva = HSVa {
-            h: self.h,
+            h: self.hue,
             s: 1.0,
             v: 0.5,
             a: 1.0,
@@ -80,5 +83,8 @@ impl Animate for Seventeen {
     }
     fn width(&self) -> usize {
         self.w
+    }
+    fn height(&self) -> usize {
+        self.h
     }
 }

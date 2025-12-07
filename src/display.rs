@@ -49,6 +49,12 @@ pub struct Sprite {
     d: Direction,
 }
 
+pub struct Group {
+    members: Vec<Box<dyn Animate>>,
+    w: usize,
+    h: usize,
+}
+
 const SPACE: char = ' ';
 
 impl Sprite {
@@ -128,6 +134,9 @@ impl Animate for Sprite {
     fn width(&self) -> usize {
         self.w
     }
+    fn height(&self) -> usize {
+        self.h
+    }
 }
 
 const CLEAR: F32x4Rgba = F32x4Rgba {
@@ -146,6 +155,7 @@ pub trait Display {
 pub trait Animate {
     fn step(&mut self) -> Vec<Point>;
     fn width(&self) -> usize;
+    fn height(&self) -> usize;
 }
 
 #[derive(Clone, Debug)]
@@ -292,5 +302,34 @@ impl Layer {
 
     pub fn clear(&mut self) {
         self.grid = array(CLEAR);
+    }
+}
+
+impl Group {
+    pub fn new(members: Vec<Box<dyn Animate>>) -> Box<Self> {
+        // this width and height is wrong... doesn't take into account any offset
+        let w: usize = members.iter().fold(std::i32::MIN, |acc, animate| {
+            acc.max(animate.width() as i32)
+        }) as usize;
+        let h: usize = members.iter().fold(std::i32::MIN, |acc, animate| {
+            acc.max(animate.height() as i32)
+        }) as usize;
+        println!("group width: {}", w);
+        Box::new(Self { members, w, h })
+    }
+}
+
+impl Animate for Group {
+    fn step(&mut self) -> Points {
+        self.members
+            .iter_mut()
+            .flat_map(|part| part.step())
+            .collect()
+    }
+    fn width(&self) -> usize {
+        self.w
+    }
+    fn height(&self) -> usize {
+        self.h
     }
 }

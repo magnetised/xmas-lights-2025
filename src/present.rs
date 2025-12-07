@@ -40,6 +40,7 @@ const COLOURS: [SpriteColour; 2] = [
 pub struct Present {
     points: Points,
     w: usize,
+    h: usize,
 }
 
 impl Present {
@@ -52,6 +53,7 @@ impl Present {
         Box::new(Present {
             points: sprite.render_at(x, y),
             w: sprite.width(),
+            h: sprite.height(),
         })
     }
     pub fn small(x: i32, y: i32, box_color: Rgba, ribbon_colour: Rgba) -> Box<Self> {
@@ -59,6 +61,7 @@ impl Present {
         Box::new(Present {
             points: sprite.render_at(x, y),
             w: sprite.width(),
+            h: sprite.height(),
         })
     }
 }
@@ -69,5 +72,8 @@ impl Animate for Present {
     }
     fn width(&self) -> usize {
         self.w
+    }
+    fn height(&self) -> usize {
+        self.h
     }
 }

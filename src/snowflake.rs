@@ -105,4 +105,7 @@ impl Animate for Snowflake {
     fn width(&self) -> usize {
         WIDTH
     }
+    fn height(&self) -> usize {
+        HEIGHT
+    }
 }

@@ -2,7 +2,7 @@ use crate::display::{
     hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
 };
 
-const PERIOD: usize = 12;
+const PERIOD: usize = 6;
 
 pub struct Train {
     parts: Vec<Part>,
@@ -12,6 +12,7 @@ pub struct Train {
     v: i32,
     n: usize,
     w: usize,
+    h: usize,
 }
 
 pub struct Part {
@@ -26,7 +27,10 @@ pub fn board(part: Box<dyn Animate>, x: i32, y: i32) -> Part {
 
 impl Train {
     pub fn new(parts: Vec<Part>, y: i32) -> Box<Self> {
-        let w: usize = parts.iter().fold(0, |sum, part| sum + part.width());
+        // let w: usize = parts.iter().fold(0, |sum, part| sum + part.width());
+        let last = parts.last().unwrap();
+        let w = last.x as usize + last.part.width();
+        let h: usize = parts.iter().fold(0, |sum, part| sum + part.height());
         Box::new(Self {
             parts,
             x: 10,
@@ -34,6 +38,7 @@ impl Train {
             v: -1,
             n: 0,
             w,
+            h,
         })
     }
 }
@@ -52,6 +57,9 @@ impl Animate for Part {
     }
     fn width(&self) -> usize {
         self.part.width()
+    }
+    fn height(&self) -> usize {
+        self.part.height()
     }
 }
 impl Part {
@@ -73,7 +81,7 @@ impl Animate for Train {
             p.x = p.x + self.x;
             p.y = p.y + self.y;
         });
-        if (self.v < 0 && self.x < -(self.w as i32)) || (self.v > 0 && self.x > WIDTH as i32) {
+        if (self.v < 0 && self.x < -(self.w as i32 + 4)) || (self.v > 0 && self.x > WIDTH as i32) {
             self.v = -self.v;
             println!("FLIP {}", self.v);
         }
@@ -81,5 +89,8 @@ impl Animate for Train {
     }
     fn width(&self) -> usize {
         self.w
+    }
+    fn height(&self) -> usize {
+        self.h
     }
 }

@@ -9,12 +9,16 @@ pub struct Animation {
     period: usize,
     n: usize,
     w: usize,
+    h: usize,
 }
 
 impl Animation {
     pub fn new(frames: Vec<Box<dyn Animate>>, period: usize) -> Box<Self> {
         let w: i32 = frames.iter().fold(std::i32::MIN, |acc, animate| {
             acc.max(animate.width() as i32)
+        });
+        let h: i32 = frames.iter().fold(std::i32::MIN, |acc, animate| {
+            acc.max(animate.height() as i32)
         });
 
         let mut rng = rand::rng();
@@ -24,6 +28,7 @@ impl Animation {
             period: period,
             n: rng.random_range(0..period as usize),
             w: w as usize,
+            h: h as usize,
         })
     }
 }
@@ -38,5 +43,8 @@ impl Animate for Animation {
     }
     fn width(&self) -> usize {
         self.w
+    }
+    fn height(&self) -> usize {
+        self.h
     }
 }

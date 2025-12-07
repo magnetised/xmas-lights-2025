@@ -92,4 +92,7 @@ impl Animate for Bounce {
     fn width(&self) -> usize {
         WIDTH
     }
+    fn height(&self) -> usize {
+        HEIGHT
+    }
 }
