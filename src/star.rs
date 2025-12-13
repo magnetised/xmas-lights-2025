@@ -112,7 +112,7 @@ impl Animate for Star {
 
 impl Animate for Layer {
     fn step(&mut self) -> Vec<Point> {
-        self.n = (self.n + 1) % 42;
+        self.n = (self.n + 1) % 16;
         if self.n == 0 {
             self.c = (self.c as i32 + self.d) as usize % COLOURS.len();
             if self.c == 0 {
