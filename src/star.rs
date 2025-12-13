@@ -23,7 +23,7 @@ const FRAME_1: &[&str] = &[
 const FRAME_2: &[&str] = &[
     "  o  ",
     "     ",
-    "o   o",
+    "     ",
     "     ",
     "  o  ",
 ];
