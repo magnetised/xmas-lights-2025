@@ -110,14 +110,6 @@ pub struct Snowman {}
 
 impl Snowman {
     pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
-        // let frame1 = Box::new(Sprite::new_at(&FRAME_1, COLOURS.to_vec().into_iter(), x, y));
-        // let frame2 = Box::new(Sprite::new_at(&FRAME_2, COLOURS.to_vec().into_iter(), x, y));
-        // let frame3 = Box::new(Sprite::new_at(&FRAME_3, COLOURS.to_vec().into_iter(), x, y));
-        // let frame4 = Box::new(Sprite::new_at(&FRAME_4, COLOURS.to_vec().into_iter(), x, y));
-        // let frame5 = Box::new(Sprite::new_at(&FRAME_3, COLOURS.to_vec().into_iter(), x, y));
-        // let frame6 = Box::new(Sprite::new_at(&FRAME_2, COLOURS.to_vec().into_iter(), x, y));
-        // Animation::new(vec![frame1, frame2, frame3, frame4, frame5, frame6], 12)
-        // let frames = &[&FRAME_1, &FRAME_2, &FRAME_3, &FRAME_4, &FRAME_3, &FRAME_2];
         Animation::new_with_frames(
             &[&FRAME_1, &FRAME_2, &FRAME_3, &FRAME_4, &FRAME_3, &FRAME_2],
             &COLOURS,

@@ -86,7 +86,9 @@ impl Animate for Train {
             p.x = p.x + self.x;
             p.y = p.y + self.y;
         });
-        if (self.v < 0 && self.x < -(self.w as i32 + 4)) || (self.v > 0 && self.x > WIDTH as i32) {
+        if (self.v < 0 && self.x < -(self.w as i32 + 8))
+            || (self.v > 0 && self.x > (WIDTH as i32 + 8))
+        {
             self.y = self.rng.random_range(self.min_y..=self.max_y);
             self.v = -self.v;
         }

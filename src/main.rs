@@ -82,6 +82,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             10,
         ),
         snow::Snow::new(2, 6),
+        tree::Tree::new(7, 8),
         // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),

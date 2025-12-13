@@ -134,7 +134,7 @@ impl Tree {
 }
 impl Animate for Light {
     fn step(&mut self) -> Points {
-        if self.rng.random::<f32>() < 0.01 {
+        if self.rng.random::<f32>() < 0.10 {
             self.colour = random_light_colour(&mut self.rng);
         }
         let c = LIGHT_COLOURS[self.colour];
