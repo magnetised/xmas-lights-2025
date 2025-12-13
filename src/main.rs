@@ -133,7 +133,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(feature = "leds")]
 fn display_impl() -> impl display::Display {
-    leds::LEDs::new()
+    leds::LEDs::new(0.5)
 }
 
 #[cfg(feature = "terminal")]

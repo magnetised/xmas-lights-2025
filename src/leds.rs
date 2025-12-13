@@ -3,7 +3,7 @@ use array2d::Array2D;
 use smart_leds::RGB8;
 use ws281x_rpi::Ws2812Rpi;
 
-use crate::display::{Display, HEIGHT, Rgb, WIDTH};
+use crate::display::{hsv_to_rgb, rgb_to_hsv, Display, HSVa, Rgb, Rgba, HEIGHT, WIDTH};
 
 const NUM_LEDS: usize = 300;
 const PIN: i32 = 10;
@@ -61,14 +61,16 @@ const ARRAY_MAP: [[usize; WIDTH]; HEIGHT] = [
 ];
 
 pub struct LEDs {
+    brightness: f32,
     leds: Ws2812Rpi,
     data: Vec<RGB8>,
 }
 
 impl LEDs {
-    pub fn new() -> Self {
+    pub fn new(brightness: f32) -> Self {
         let ws = Ws2812Rpi::new(NUM_LEDS as i32, PIN).unwrap();
         LEDs {
+            brightness,
             leds: ws,
             data: vec![RGB8::default(); NUM_LEDS],
         }
@@ -86,8 +88,25 @@ impl Display for LEDs {
         for y in 0..HEIGHT {
             for x in 0..WIDTH {
                 let l = ARRAY_MAP[y][x];
-                let rgb = *grid.get(y, x).unwrap();
-                self.set_colour(l, rgb);
+                let (r, g, b) = *grid.get(y, x).unwrap();
+                let hsv = rgb_to_hsv(Rgba {
+                    r: r as f32 / 255.0,
+                    b: b as f32 / 255.0,
+                    g: g as f32 / 255.0,
+                    a: 1.0,
+                });
+                let rgba = hsv_to_rgb(HSVa {
+                    v: hsv.v * self.brightness,
+                    ..hsv
+                });
+                self.set_colour(
+                    l,
+                    (
+                        (rgba.r * 255.0).round() as u8,
+                        (rgba.g * 255.0).round() as u8,
+                        (rgba.b * 255.0).round() as u8,
+                    ),
+                );
             }
         }
         smart_leds::SmartLedsWrite::write(
