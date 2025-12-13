@@ -64,7 +64,7 @@ impl Seventeen {
 
 impl Animate for Seventeen {
     fn step(&mut self) -> Points {
-        self.hue = (self.hue + 0.5) % 360.0;
+        self.hue = (self.hue + 0.8) % 360.0;
         let hsva = HSVa {
             h: self.hue,
             s: 1.0,
