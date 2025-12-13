@@ -21,8 +21,12 @@ impl Display for Terminal {
         print!("\x1B[?25l");
         print!("\x1B[2J\x1B[1;1H");
 
+        println!("");
+        println!("");
+
         for y in 0..HEIGHT {
             let mut row: Vec<String> = Vec::with_capacity(WIDTH);
+            row.push("    ".to_string());
             for x in 0..WIDTH {
                 // println!("x: {}; y: {}", x, y);
 

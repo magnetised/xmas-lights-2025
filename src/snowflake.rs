@@ -1,6 +1,4 @@
-use crate::display::{
-    Animate, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH,
-};
+use crate::display::{Animate, Point, Points, Rgba, Sprite, SpriteColour, HEIGHT, WIDTH};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -53,7 +51,7 @@ pub struct Snowflake {
 
 impl Snowflake {
     pub fn new() -> Box<Self> {
-        let sprite1 = Sprite::new(&FLAKE_1, COLOURS_1.to_vec().into_iter());
+        let sprite1 = Sprite::new(&FLAKE_1, &COLOURS_1);
         let w = sprite1.w;
         Box::new(Self {
             flake: None,

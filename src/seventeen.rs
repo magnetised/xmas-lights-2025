@@ -1,6 +1,4 @@
-use crate::display::{
-    hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour,
-};
+use crate::display::{hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour};
 
 #[rustfmt::skip]
 const LARGE: [&str; 10] = [
@@ -45,7 +43,7 @@ pub struct Seventeen {
 
 impl Seventeen {
     pub fn large(x: i32, y: i32) -> Box<Self> {
-        let sprite = Sprite::new(&LARGE, COLOURS.to_vec().into_iter());
+        let sprite = Sprite::new(&LARGE, &COLOURS);
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             hue: 0.0,
@@ -54,7 +52,7 @@ impl Seventeen {
         })
     }
     pub fn small(x: i32, y: i32) -> Box<Self> {
-        let sprite = Sprite::new(&SMALL, COLOURS.to_vec().into_iter());
+        let sprite = Sprite::new(&SMALL, &COLOURS);
         Box::new(Seventeen {
             points: sprite.render_at(x, y),
             hue: 0.0,

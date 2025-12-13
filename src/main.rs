@@ -8,13 +8,16 @@ mod display;
 mod leds;
 mod present;
 mod reindeer;
+mod santa;
 mod seventeen;
 mod sleigh;
 mod snow;
 mod snowflake;
+mod snowman;
 mod square;
 mod terminal;
 mod train;
+mod tree;
 
 use display::{rgba, Animate, Display, Group, Layer, Points};
 use train::board;
@@ -31,14 +34,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
-        snowflake::Snowflake::new(),
+        // snowflake::Snowflake::new(),
         snow::Snow::new(1, 5),
         train::Train::new(
             vec![
                 board(reindeer::Reindeer::rudolf(0, 0), 0, 0),
-                board(reindeer::Reindeer::new(0, 0), 12, 0),
-                board(reindeer::Reindeer::new(0, 0), 24, -1),
-                board(reindeer::Reindeer::new(0, 0), 36, 0),
+                board(reindeer::Reindeer::new(0, 0), 11, 0),
+                board(reindeer::Reindeer::new(0, 0), 22, -1),
+                // board(reindeer::Reindeer::new(0, 0), 33, 0),
+                board(santa::Santa::new(0, 0), 33, -3),
                 board(
                     sleigh::Sleigh::new(
                         Group::new(vec![
@@ -64,10 +68,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         0,
                         0,
                     ),
-                    48,
+                    45,
                     1,
                 ),
+                board(sleigh::Sleigh::new(tree::Tree::new(0, 0), -2, 0), 60, -6),
+                board(
+                    sleigh::Sleigh::new(snowman::Snowman::new(0, 0), -2, 0),
+                    72,
+                    -7,
+                ),
             ],
+            7,
             10,
         ),
         snow::Snow::new(2, 6),
@@ -75,7 +86,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
         // square::Square::new(6, 14),
-        seventeen::Seventeen::small(1, 1),
+        seventeen::Seventeen::small(0, 0),
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 8),
         snow::Snow::new(4, 20),

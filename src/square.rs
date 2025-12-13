@@ -22,7 +22,7 @@ pub struct Square {
 
 impl Square {
     pub fn new(x: i32, y: i32) -> Box<Self> {
-        let sprite = Sprite::new(&PIXELS, COLOURS.to_vec().into_iter());
+        let sprite = Sprite::new(&PIXELS, &COLOURS);
         Box::new(Square {
             points: sprite.render_at(x, y),
         })

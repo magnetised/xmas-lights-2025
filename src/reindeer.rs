@@ -89,8 +89,8 @@ impl Reindeer {
     }
     pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
         let fur = Self::random_fur_colour();
-        let nose = Self::random_colour(fur);
-        Self::new_with_colours(x, y, nose, Self::random_fur_colour())
+        // let nose = Self::random_colour(fur);
+        Self::new_with_colours(x, y, fur, fur)
     }
     pub fn new_with_colours(x: i32, y: i32, nose: Rgba, fur: Rgba) -> Box<dyn Animate> {
         let colours: Vec<SpriteColour> = COLOURS
@@ -102,8 +102,8 @@ impl Reindeer {
             })
             .collect();
 
-        let frame1 = Sprite::new_at(&FRAME_1, colours.clone().into_iter(), x, y);
-        let frame2 = Sprite::new_at(&FRAME_2, colours.into_iter(), x, y);
+        let frame1 = Sprite::new_at(&FRAME_1, &colours, x, y);
+        let frame2 = Sprite::new_at(&FRAME_2, &colours, x, y);
 
         Animation::new(vec![Box::new(frame1), Box::new(frame2)], 12)
     }

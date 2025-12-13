@@ -1,6 +1,4 @@
-use crate::display::{
-    Animate, Points, Rgba, Sprite, SpriteColour,
-};
+use crate::display::{Animate, Points, Rgba, Sprite, SpriteColour};
 
 #[rustfmt::skip]
 const CARGO_SLEIGH: [&str; 4] = [
@@ -39,7 +37,7 @@ pub struct Sleigh {
 impl Sleigh {
     pub fn new(cargo: Box<dyn Animate>, x: i32, y: i32) -> Box<Self> {
         let h = cargo.height();
-        let sleigh = Sprite::new_at(&CARGO_SLEIGH, COLOURS.to_vec().into_iter(), x, y + h as i32);
+        let sleigh = Sprite::new_at(&CARGO_SLEIGH, &COLOURS, x, y + h as i32);
         Box::new(Self {
             cargo,
             sleigh,

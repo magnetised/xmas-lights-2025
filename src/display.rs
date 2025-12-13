@@ -57,15 +57,15 @@ pub struct Group {
 const SPACE: char = ' ';
 
 impl Sprite {
-    pub fn new(pixels: &[&str], colours: IntoIter<SpriteColour>) -> Self {
+    pub fn new(pixels: &[&str], colours: &[SpriteColour]) -> Self {
         Self::new_at(pixels, colours, 0, 0)
     }
 
-    pub fn new_at(pixels: &[&str], colours: IntoIter<SpriteColour>, x: i32, y: i32) -> Self {
+    pub fn new_at(pixels: &[&str], colours: &[SpriteColour], x: i32, y: i32) -> Self {
         let mut colour_lut = HashMap::new();
         for (s, colour) in colours {
             let ch = s.chars().nth(0).unwrap();
-            colour_lut.insert(ch, colour);
+            colour_lut.insert(ch, *colour);
         }
         let mut points: Vec<Point> = Vec::new();
         for (y, l) in pixels.iter().enumerate() {

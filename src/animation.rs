@@ -1,7 +1,6 @@
-use crate::display::{
-    Animate, Points,
-};
+use crate::display::{Animate, Points, Sprite, SpriteColour};
 use rand::prelude::*;
+use std::vec::IntoIter;
 
 pub struct Animation {
     frames: Vec<Box<dyn Animate>>,
@@ -30,6 +29,20 @@ impl Animation {
             w: w as usize,
             h: h as usize,
         })
+    }
+    pub fn new_with_frames(
+        frame_pixels: &[&[&str]],
+        colours: &[SpriteColour],
+        period: usize,
+        x: i32,
+        y: i32,
+    ) -> Box<Self> {
+        let mut frames: Vec<Box<dyn Animate>> = Vec::with_capacity(frame_pixels.len());
+        for frame in frame_pixels {
+            let sprite: Box<dyn Animate> = Box::new(Sprite::new_at(frame, colours.clone(), x, y));
+            frames.push(sprite);
+        }
+        Animation::new(frames, period)
     }
 }
 impl Animate for Animation {
