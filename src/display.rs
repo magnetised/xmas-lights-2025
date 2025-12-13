@@ -3,7 +3,6 @@ use alpha_blend::rgba::F32x4Rgba;
 use alpha_blend::{BlendMode, RgbaBlend};
 use array2d::Array2D;
 use std::collections::HashMap;
-use std::vec::IntoIter;
 
 pub type Rgba = F32x4Rgba;
 pub type Rgb = (u8, u8, u8);

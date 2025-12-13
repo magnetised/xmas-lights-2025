@@ -39,7 +39,7 @@ impl Animation {
     ) -> Box<Self> {
         let mut frames: Vec<Box<dyn Animate>> = Vec::with_capacity(frame_pixels.len());
         for frame in frame_pixels {
-            let sprite: Box<dyn Animate> = Box::new(Sprite::new_at(frame, colours.clone(), x, y));
+            let sprite: Box<dyn Animate> = Box::new(Sprite::new_at(frame, colours, x, y));
             frames.push(sprite);
         }
         Animation::new(frames, period)

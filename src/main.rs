@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
-        star::Star::new(7, 0),
+        star::Star::new(10, 0),
         // snowflake::Snowflake::new(),
         snow::Snow::new(1, 5),
         train::Train::new(

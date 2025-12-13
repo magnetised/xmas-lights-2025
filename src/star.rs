@@ -4,28 +4,28 @@ use rand::prelude::*;
 
 #[rustfmt::skip]
 const FRAME_0: &[&str] = &[
-    "           ",
-    "           ",
-    "     o     ",
-    "           ",
-    "           ",
+    "     ",
+    "     ",
+    "  o  ",
+    "     ",
+    "     ",
 ];
 
 #[rustfmt::skip]
 const FRAME_1: &[&str] = &[
-    "           ",
-    "    ooo    ",
-    "    o o    ",
-    "    ooo    ",
-    "           ",
+    "     ",
+    "  o  ",
+    " o o ",
+    "  o  ",
+    "     ",
 ];
 #[rustfmt::skip]
 const FRAME_2: &[&str] = &[
-    "     o     ",
-    "           ",
-    "   o   o   ",
-    "           ",
-    "     o     ",
+    "  o  ",
+    "     ",
+    "o   o",
+    "     ",
+    "  o  ",
 ];
 
 const SPRITE_COLOURS: [SpriteColour; 1] = [(
@@ -75,20 +75,20 @@ impl Star {
             Layer {
                 sprite: Sprite::new_at(FRAME_0, &SPRITE_COLOURS, x, y),
                 n: 0,
-                c: 0,
-                d: -1,
+                c: 2,
+                d: 1,
             },
             Layer {
                 sprite: Sprite::new_at(FRAME_1, &SPRITE_COLOURS, x, y),
                 n: 0,
                 c: 1,
-                d: -1,
+                d: 1,
             },
             Layer {
                 sprite: Sprite::new_at(FRAME_2, &SPRITE_COLOURS, x, y),
                 n: 0,
-                c: 2,
-                d: -1,
+                c: 0,
+                d: 1,
             },
         ];
         Box::new(Star { layers })
@@ -112,11 +112,11 @@ impl Animate for Star {
 
 impl Animate for Layer {
     fn step(&mut self) -> Vec<Point> {
-        self.n = (self.n + 1) % 32;
+        self.n = (self.n + 1) % 42;
         if self.n == 0 {
             self.c = (self.c as i32 + self.d) as usize % COLOURS.len();
             if self.c == 0 {
-                self.d = -self.d;
+                // self.d = -self.d;
             }
         }
 
