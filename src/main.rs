@@ -35,7 +35,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // first is at top, so over everything else
     let mut layers: Vec<Box<dyn Animate>> = vec![
-        star::Star::new(10, 0),
+        // star::Star::new(10, 0),
         // snowflake::Snowflake::new(),
         snow::Snow::new(1, 5),
         train::Train::new(
@@ -84,7 +84,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             10,
         ),
         snow::Snow::new(2, 8),
-        tree::Tree::new(7, 12),
+        // tree::Tree::new(7, 12),
         // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
@@ -133,7 +133,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(feature = "leds")]
 fn display_impl() -> impl display::Display {
-    leds::LEDs::new(0.5)
+    leds::LEDs::new(0.8)
 }
 
 #[cfg(feature = "terminal")]
