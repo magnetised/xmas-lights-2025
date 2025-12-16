@@ -89,7 +89,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
         // square::Square::new(6, 14),
-        seventeen::Seventeen::stripy(1, 1),
+        seventeen::Seventeen::stripy(0, 0),
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 15),
         snow::Snow::new(4, 25),

@@ -24,78 +24,115 @@ const SMALL: [&str; 6] = [
     "xxxx xx ",
 ];
 #[rustfmt::skip]
-const STRIPY_1: [&str; 6] = [
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "xx      ",
+const STRIPY_1: [&str; 8] = [
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    " xx       ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_2: [&str; 6] = [
-    "        ",
-    "        ",
-    "        ",
-    " x      ",
-    " xx     ",
-    "  xx    ",
+const STRIPY_2: [&str; 8] = [
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    "  x       ",
+    "  xx      ",
+    "   xx     ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_3: [&str; 6] = [
-    "        ",
-    "xx      ",
-    " xx     ",
-    "  x     ",
-    "        ",
-    "     x  ",
+const STRIPY_3: [&str; 8] = [
+    "          ",
+    "          ",
+    " xx       ",
+    "  xx      ",
+    "   x      ",
+    "          ",
+    "      x   ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_4: [&str; 6] = [
-    " xx     ",
-    "  x     ",
-    "        ",
-    "     x  ",
-    "     xx ",
-    "      x ",
+const STRIPY_4: [&str; 8] = [
+    "          ",
+    "  xx      ",
+    "   x      ",
+    "          ",
+    "      x   ",
+    "      xx  ",
+    "       x  ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_5: [&str; 6] = [
-    "    x   ",
-    "    xx  ",
-    "      x ",
-    "      x ",
-    "        ",
-    "        ",
+const STRIPY_5: [&str; 8] = [
+    "          ",
+    "     x    ",
+    "     xx   ",
+    "       x  ",
+    "       x  ",
+    "          ",
+    "          ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_6: [&str; 6] = [
-    "     xx ",
-    "      xx",
-    "       x",
-    "        ",
-    "        ",
-    "        ",
+const STRIPY_6: [&str; 8] = [
+    "          ",
+    "      xx  ",
+    "       xx ",
+    "        x ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
 ];
 #[rustfmt::skip]
-const STRIPY_7: [&str; 6] = [
-    "       x",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
-    "        ",
+const STRIPY_7: [&str; 8] = [
+    "          ",
+    "        x ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+    "          ",
+];
+#[rustfmt::skip]
+const BORDER: [&str; 8] = [
+    "..........",
+    ".        .",
+    ".        .",
+    ".        .",
+    ".        .",
+    ".        .",
+    ".        .",
+    "..........",
+
 ];
 
-const COLOURS: [SpriteColour; 1] = [(
-    "x",
-    Rgba {
-        r: 0.0,
-        g: 1.0,
-        b: 0.0,
-        a: 1.0,
-    },
-)];
+const COLOURS: [SpriteColour; 2] = [
+    (
+        "x",
+        Rgba {
+            r: 0.0,
+            g: 1.0,
+            b: 0.0,
+            a: 1.0,
+        },
+    ),
+    (
+        ".",
+        Rgba {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+            a: 1.0,
+        },
+    ),
+];
 
 pub struct Seventeen {
     points: Points,
@@ -131,6 +168,7 @@ impl Seventeen {
         let sprite_5 = Sprite::new(&STRIPY_5, &COLOURS);
         let sprite_6 = Sprite::new(&STRIPY_6, &COLOURS);
         let sprite_7 = Sprite::new(&STRIPY_7, &COLOURS);
+        let border = Sprite::new_at(&BORDER, &COLOURS, x, y);
 
         // Box::new(Seventeen {
         //     points: sprite.render_at(x, y),
@@ -181,6 +219,7 @@ impl Seventeen {
                 w: sprite_7.w,
                 h: sprite_7.h,
             }),
+            Box::new(border),
         ])
     }
 }
