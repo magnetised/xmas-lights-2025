@@ -37,7 +37,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut layers: Vec<Box<dyn Animate>> = vec![
         // star::Star::new(10, 0),
         // snowflake::Snowflake::new(),
-        snow::Snow::new(1, 5),
         train::Train::new(
             vec![
                 board(reindeer::Reindeer::rudolf(0, 0), 0, 0),
@@ -83,13 +82,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             7,
             10,
         ),
+        seventeen::Seventeen::stripy(0, 0),
+        snow::Snow::new(1, 5),
         snow::Snow::new(2, 8),
         // tree::Tree::new(7, 12),
         // present::Present::large(1, 15, rgba(0.8, 0.0, 0.0, 1.0), rgba(0.8, 0.8, 0.0, 1.0)),
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
         // square::Square::new(6, 14),
-        seventeen::Seventeen::stripy(0, 0),
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 15),
         snow::Snow::new(4, 25),
