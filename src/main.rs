@@ -51,7 +51,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             present::Present::large(
                                 2,
                                 0,
-                                rgba(0.6, 0.0, 0.0, 1.0),
+                                rgba(0.0, 0.0, 0.6, 1.0),
                                 rgba(0.6, 0.6, 0.0, 1.0),
                             ),
                             present::Present::small(
