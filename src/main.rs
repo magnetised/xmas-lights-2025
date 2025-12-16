@@ -51,20 +51,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             present::Present::large(
                                 2,
                                 0,
-                                rgba(0.8, 0.0, 0.0, 1.0),
-                                rgba(0.8, 0.8, 0.0, 1.0),
+                                rgba(0.6, 0.0, 0.0, 1.0),
+                                rgba(0.6, 0.6, 0.0, 1.0),
                             ),
                             present::Present::small(
                                 4,
                                 -3,
-                                rgba(0.0, 0.8, 0.0, 1.0),
-                                rgba(0.8, 0.8, 0.8, 1.0),
+                                rgba(0.0, 0.6, 0.0, 1.0),
+                                rgba(0.6, 0.6, 0.6, 1.0),
                             ),
                             present::Present::small(
                                 8,
                                 2,
-                                rgba(0.8, 0.5, 0.3, 1.0),
-                                rgba(0.8, 0.0, 0.8, 1.0),
+                                rgba(0.6, 0.3, 0.1, 1.0),
+                                rgba(0.6, 0.0, 0.6, 1.0),
                             ),
                         ]),
                         0,
@@ -89,7 +89,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // present::Present::small(3, 12, rgba(0.0, 0.8, 0.0, 1.0), rgba(0.8, 0.8, 0.8, 1.0)),
         // present::Present::small(6, 17, rgba(0.8, 0.5, 0.3, 1.0), rgba(0.8, 0.0, 0.8, 1.0)),
         // square::Square::new(6, 14),
-        seventeen::Seventeen::small(0, 0),
+        seventeen::Seventeen::stripy(2, 1),
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 15),
         snow::Snow::new(4, 25),
@@ -133,7 +133,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(feature = "leds")]
 fn display_impl() -> impl display::Display {
-    leds::LEDs::new(0.8)
+    leds::LEDs::new(1.0)
 }
 
 #[cfg(feature = "terminal")]

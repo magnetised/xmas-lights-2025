@@ -87,24 +87,28 @@ impl Display for LEDs {
             for x in 0..WIDTH {
                 let l = map[y][x];
                 let (r, g, b) = *grid.get(y, x).unwrap();
-                let hsv = rgb_to_hsv(Rgba {
-                    r: r as f32 / 255.0,
-                    b: b as f32 / 255.0,
-                    g: g as f32 / 255.0,
-                    a: 1.0,
-                });
-                let rgba = hsv_to_rgb(HSVa {
-                    v: hsv.v * self.brightness,
-                    ..hsv
-                });
-                self.set_colour(
-                    l,
-                    (
-                        (rgba.r * 255.0).round() as u8,
-                        (rgba.g * 255.0).round() as u8,
-                        (rgba.b * 255.0).round() as u8,
-                    ),
-                );
+                if self.brightness < 1.0 {
+                    let hsv = rgb_to_hsv(Rgba {
+                        r: r as f32 / 255.0,
+                        b: b as f32 / 255.0,
+                        g: g as f32 / 255.0,
+                        a: 1.0,
+                    });
+                    let rgba = hsv_to_rgb(HSVa {
+                        v: hsv.v * self.brightness,
+                        ..hsv
+                    });
+                    self.set_colour(
+                        l,
+                        (
+                            (rgba.r * 255.0).round() as u8,
+                            (rgba.g * 255.0).round() as u8,
+                            (rgba.b * 255.0).round() as u8,
+                        ),
+                    );
+                } else {
+                    self.set_colour(l, (r, g, b));
+                }
             }
         }
         smart_leds::SmartLedsWrite::write(

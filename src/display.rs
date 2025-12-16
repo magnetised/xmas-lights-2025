@@ -16,6 +16,12 @@ pub struct HSVa {
 }
 
 pub const BLACK: Rgb = (0, 0, 0);
+pub const WHITE: Rgba = Rgba {
+    r: 0.8,
+    g: 0.8,
+    b: 0.8,
+    a: 1.0,
+};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Point {

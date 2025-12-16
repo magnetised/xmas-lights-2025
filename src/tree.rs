@@ -36,7 +36,7 @@ const COLOURS: [SpriteColour; 3] = [
         "x",
         Rgba {
             r: 0.0,
-            g: 255f32 / 255f32,
+            g: 200f32 / 255f32,
             b: 0.0,
             a: 1.0,
         },

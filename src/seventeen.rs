@@ -1,4 +1,4 @@
-use crate::display::{hsv_to_rgb, Animate, HSVa, Point, Points, Rgba, Sprite, SpriteColour};
+use crate::display::{hsv_to_rgb, Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour};
 
 #[rustfmt::skip]
 const LARGE: [&str; 10] = [
@@ -22,6 +22,69 @@ const SMALL: [&str; 6] = [
     " xx  xx ",
     " xx  xx ",
     "xxxx xx ",
+];
+#[rustfmt::skip]
+const STRIPY_1: [&str; 6] = [
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "xx      ",
+];
+#[rustfmt::skip]
+const STRIPY_2: [&str; 6] = [
+    "        ",
+    "        ",
+    "        ",
+    " x      ",
+    " xx     ",
+    "  xx    ",
+];
+#[rustfmt::skip]
+const STRIPY_3: [&str; 6] = [
+    "        ",
+    "xx      ",
+    " xx     ",
+    "  x     ",
+    "        ",
+    "     x  ",
+];
+#[rustfmt::skip]
+const STRIPY_4: [&str; 6] = [
+    " xx     ",
+    "  x     ",
+    "        ",
+    "     x  ",
+    "     xx ",
+    "      x ",
+];
+#[rustfmt::skip]
+const STRIPY_5: [&str; 6] = [
+    "    x   ",
+    "    xx  ",
+    "      x ",
+    "      x ",
+    "        ",
+    "        ",
+];
+#[rustfmt::skip]
+const STRIPY_6: [&str; 6] = [
+    "     xx ",
+    "      xx",
+    "       x",
+    "        ",
+    "        ",
+    "        ",
+];
+#[rustfmt::skip]
+const STRIPY_7: [&str; 6] = [
+    "       x",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
+    "        ",
 ];
 
 const COLOURS: [SpriteColour; 1] = [(
@@ -60,6 +123,66 @@ impl Seventeen {
             h: sprite.h,
         })
     }
+    pub fn stripy(x: i32, y: i32) -> Box<dyn Animate> {
+        let sprite_1 = Sprite::new(&STRIPY_1, &COLOURS);
+        let sprite_2 = Sprite::new(&STRIPY_2, &COLOURS);
+        let sprite_3 = Sprite::new(&STRIPY_3, &COLOURS);
+        let sprite_4 = Sprite::new(&STRIPY_4, &COLOURS);
+        let sprite_5 = Sprite::new(&STRIPY_5, &COLOURS);
+        let sprite_6 = Sprite::new(&STRIPY_6, &COLOURS);
+        let sprite_7 = Sprite::new(&STRIPY_7, &COLOURS);
+
+        // Box::new(Seventeen {
+        //     points: sprite.render_at(x, y),
+        //     hue: 0.0,
+        //     w: sprite.w,
+        //     h: sprite.h,
+        // })
+        Group::new(vec![
+            Box::new(Seventeen {
+                points: sprite_1.render_at(x, y),
+                hue: 0.0,
+                w: sprite_1.w,
+                h: sprite_1.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_2.render_at(x, y),
+                hue: 45.0,
+                w: sprite_2.w,
+                h: sprite_2.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_3.render_at(x, y),
+                hue: 90.0,
+                w: sprite_3.w,
+                h: sprite_3.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_4.render_at(x, y),
+                hue: 135.0,
+                w: sprite_4.w,
+                h: sprite_4.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_5.render_at(x, y),
+                hue: 180.0,
+                w: sprite_5.w,
+                h: sprite_5.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_6.render_at(x, y),
+                hue: 225.0,
+                w: sprite_6.w,
+                h: sprite_6.h,
+            }),
+            Box::new(Seventeen {
+                points: sprite_7.render_at(x, y),
+                hue: 270.0,
+                w: sprite_7.w,
+                h: sprite_7.h,
+            }),
+        ])
+    }
 }
 
 impl Animate for Seventeen {
@@ -68,7 +191,7 @@ impl Animate for Seventeen {
         let hsva = HSVa {
             h: self.hue,
             s: 1.0,
-            v: 0.5,
+            v: 1.0,
             a: 1.0,
         };
         let rgba = hsv_to_rgb(hsva);

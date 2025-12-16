@@ -1,5 +1,5 @@
 use crate::animation::Animation;
-use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour};
+use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour, WHITE};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -36,6 +36,22 @@ const FRAME_2: [&str; 13] = [
 ];
 #[rustfmt::skip]
 const FRAME_3: [&str; 13] = [
+    "    o    ",
+    "   r     ",
+    "  rrr    ",
+    "  ooo    ",
+    " o.o.o   ",
+    " oovoo   ",
+    "  ooo    ",
+    "  rrrrrrr",
+    " oo.oo   ",
+    "ooooooo  ",
+    "ooo.ooo  ",
+    "ooooooo  ",
+    " ooooo   ",
+];
+#[rustfmt::skip]
+const FRAME_4: [&str; 13] = [
     "  o      ",
     "   r     ",
     "  rrr    ",
@@ -51,7 +67,7 @@ const FRAME_3: [&str; 13] = [
     " ooooo   ",
 ];
 #[rustfmt::skip]
-const FRAME_4: [&str; 13] = [
+const FRAME_5: [&str; 13] = [
     "  o      ",
     "   r     ",
     "  rrr    ",
@@ -95,15 +111,7 @@ const COLOURS: [SpriteColour; 4] = [
             a: 1.0,
         },
     ),
-    (
-        "o",
-        Rgba {
-            r: 1.0,
-            g: 1.0,
-            b: 1.0,
-            a: 1.0,
-        },
-    ),
+    ("o", WHITE),
 ];
 
 pub struct Snowman {}
@@ -111,7 +119,9 @@ pub struct Snowman {}
 impl Snowman {
     pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
         Animation::new_with_frames(
-            &[&FRAME_1, &FRAME_2, &FRAME_3, &FRAME_4, &FRAME_3, &FRAME_2],
+            &[
+                &FRAME_1, &FRAME_2, &FRAME_3, &FRAME_4, &FRAME_5, &FRAME_4, &FRAME_3, &FRAME_2,
+            ],
             &COLOURS,
             12,
             x,

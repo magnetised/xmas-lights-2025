@@ -1,6 +1,6 @@
 use crate::animation::Animation;
-use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour};
-use rand::prelude::*;
+use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour, WHITE};
+use crate::sleigh;
 
 #[rustfmt::skip]
 const FRAME_0: [&str; 13] = [
@@ -52,15 +52,7 @@ const FRAME_2: [&str; 13] = [
 ];
 
 const COLOURS: [SpriteColour; 7] = [
-    (
-        "w",
-        Rgba {
-            r: 131f32 / 255f32,
-            g: 74f32 / 255f32,
-            b: 72f32 / 255f32,
-            a: 1.0,
-        },
-    ),
+    ("w", sleigh::SLEIGH_COLOUR),
     (
         "o",
         Rgba {
@@ -70,16 +62,7 @@ const COLOURS: [SpriteColour; 7] = [
             a: 1.0,
         },
     ),
-    (
-        "b",
-        Rgba {
-            // 178,108,47
-            r: 255f32 / 255f32,
-            g: 255f32 / 255f32,
-            b: 255f32 / 255f32,
-            a: 1.0,
-        },
-    ),
+    ("b", WHITE),
     (
         "f",
         Rgba {
@@ -89,15 +72,7 @@ const COLOURS: [SpriteColour; 7] = [
             a: 1.0,
         },
     ),
-    (
-        "+",
-        Rgba {
-            r: 171f32 / 255f32,
-            g: 171f32 / 255f32,
-            b: 171f32 / 255f32,
-            a: 1.0,
-        },
-    ),
+    ("+", sleigh::RUNNER_COLOUR),
     (
         "=",
         Rgba {

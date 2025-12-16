@@ -1,5 +1,18 @@
 use crate::display::{Animate, Points, Rgba, Sprite, SpriteColour};
 
+pub const RUNNER_COLOUR: Rgba = Rgba {
+    r: 244f32 / 255f32,
+    g: 209f32 / 255f32,
+    b: 0f32 / 255f32,
+    a: 1.0,
+};
+pub const SLEIGH_COLOUR: Rgba = Rgba {
+    r: 191f32 / 255f32,
+    g: 0f32 / 255f32,
+    b: 0f32 / 255f32,
+    a: 1.0,
+};
+
 #[rustfmt::skip]
 const CARGO_SLEIGH: [&str; 4] = [
     " xxxxxxxxxx",
@@ -7,26 +20,8 @@ const CARGO_SLEIGH: [&str; 4] = [
     "+  +    +  ",
     " ++++++++++",
 ];
-const COLOURS: [SpriteColour; 2] = [
-    (
-        "x",
-        Rgba {
-            r: 131f32 / 255f32,
-            g: 74f32 / 255f32,
-            b: 72f32 / 255f32,
-            a: 1.0,
-        },
-    ),
-    (
-        "+",
-        Rgba {
-            r: 171f32 / 255f32,
-            g: 171f32 / 255f32,
-            b: 171f32 / 255f32,
-            a: 1.0,
-        },
-    ),
-];
+const COLOURS: [SpriteColour; 2] = [("x", SLEIGH_COLOUR), ("+", RUNNER_COLOUR)];
+
 pub struct Sleigh {
     cargo: Box<dyn Animate>,
     sleigh: Sprite,
