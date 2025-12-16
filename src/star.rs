@@ -1,7 +1,7 @@
 use crate::animation::Animation;
 use crate::display::{
     darken, hsv_to_rgb, rgba, Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour,
-    WIDTH,
+    HEIGHT, WIDTH,
 };
 use rand::prelude::*;
 
@@ -108,7 +108,7 @@ impl Star {
         for _i in 0..n {
             let s = Speck {
                 x: rng.random_range(0..WIDTH) as i32,
-                y: rng.random_range(0..8) as i32,
+                y: rng.random_range(0..HEIGHT) as i32,
                 b: 100.0 * rng.random::<f32>(),
                 rng: rand::rng(),
             };
