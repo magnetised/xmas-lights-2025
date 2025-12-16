@@ -1,11 +1,10 @@
 use crate::display::{Animate, Point, Rgba, HEIGHT, WIDTH};
-use rand::prelude::*;
-
 struct Flake {
     x: i32,
     y: f32,
     vy: f32,
 }
+use rand::prelude::*;
 
 pub struct Snow {
     depth: usize,

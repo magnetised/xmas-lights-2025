@@ -93,6 +93,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 15),
         snow::Snow::new(4, 25),
+        star::Star::sprinkle(20),
     ];
 
     layers.reverse();

@@ -15,7 +15,7 @@ const FRAME_1: [&str; 12] = [
     "  xxxxx  ",
     " xxxxxxx ",
     "xxxxxxxxx",
-    "         ",
+    "   |||   ",
 ];
 const LIGHTS: [&str; 11] = [
     "         ",
@@ -31,7 +31,7 @@ const LIGHTS: [&str; 11] = [
     " .    .  ",
 ];
 
-const COLOURS: [SpriteColour; 3] = [
+const COLOURS: [SpriteColour; 4] = [
     (
         "x",
         Rgba {
@@ -56,6 +56,15 @@ const COLOURS: [SpriteColour; 3] = [
             r: 1.0,
             g: 1.0,
             b: 1.0,
+            a: 1.0,
+        },
+    ),
+    (
+        "|",
+        Rgba {
+            r: 73f32 / 255f32,
+            g: 49f32 / 255f32,
+            b: 47f32 / 255f32,
             a: 1.0,
         },
     ),

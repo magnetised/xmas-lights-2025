@@ -1,9 +1,8 @@
 use crate::animation::Animation;
 use crate::display::{darken, rgba, Animate, Rgba, Sprite, SpriteColour, WHITE};
-use rand::prelude::*;
 
 #[rustfmt::skip]
-const FRAME_1: [&str; 13] = [
+const FRAME_1: [&str; 12] = [
     "  o      ",
     "   r     ",
     "  rrr    ",
@@ -15,11 +14,10 @@ const FRAME_1: [&str; 13] = [
     " oo.oo   ",
     "ooooooo  ",
     "ooo.ooo  ",
-    "ooooooo  ",
     " ooooo   ",
 ];
 #[rustfmt::skip]
-const FRAME_2: [&str; 13] = [
+const FRAME_2: [&str; 12] = [
     "    o    ",
     "   r     ",
     "  rrr    ",
@@ -31,11 +29,10 @@ const FRAME_2: [&str; 13] = [
     " oo.oo   ",
     "ooooooo  ",
     "ooo.ooo  ",
-    "ooooooo  ",
     " ooooo   ",
 ];
 #[rustfmt::skip]
-const FRAME_3: [&str; 13] = [
+const FRAME_3: [&str; 12] = [
     "    o    ",
     "   r     ",
     "  rrr    ",
@@ -47,11 +44,10 @@ const FRAME_3: [&str; 13] = [
     " oo.oo   ",
     "ooooooo  ",
     "ooo.ooo  ",
-    "ooooooo  ",
     " ooooo   ",
 ];
 #[rustfmt::skip]
-const FRAME_4: [&str; 13] = [
+const FRAME_4: [&str; 12] = [
     "  o      ",
     "   r     ",
     "  rrr    ",
@@ -63,11 +59,10 @@ const FRAME_4: [&str; 13] = [
     " oo.oorrr",
     "ooooooo  ",
     "ooo.ooo  ",
-    "ooooooo  ",
     " ooooo   ",
 ];
 #[rustfmt::skip]
-const FRAME_5: [&str; 13] = [
+const FRAME_5: [&str; 12] = [
     "  o      ",
     "   r     ",
     "  rrr    ",
@@ -79,7 +74,6 @@ const FRAME_5: [&str; 13] = [
     " oo.oor  ",
     "ooooooor ",
     "ooo.ooo r",
-    "ooooooo  ",
     " ooooo   ",
 ];
 

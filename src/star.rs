@@ -1,5 +1,8 @@
 use crate::animation::Animation;
-use crate::display::{darken, rgba, Animate, Point, Points, Rgba, Sprite, SpriteColour};
+use crate::display::{
+    darken, hsv_to_rgb, rgba, Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour,
+    WIDTH,
+};
 use rand::prelude::*;
 
 #[rustfmt::skip]
@@ -68,6 +71,12 @@ struct Layer {
 pub struct Star {
     layers: Vec<Layer>,
 }
+pub struct Speck {
+    x: i32,
+    y: i32,
+    b: f32,
+    rng: ThreadRng,
+}
 
 impl Star {
     pub fn new(x: i32, y: i32) -> Box<dyn Animate> {
@@ -93,8 +102,45 @@ impl Star {
         ];
         Box::new(Star { layers })
     }
+    pub fn sprinkle(n: usize) -> Box<dyn Animate> {
+        let mut stars: Vec<Box<dyn Animate>> = Vec::with_capacity(n);
+        let mut rng = rand::rng();
+        for _i in 0..n {
+            let s = Speck {
+                x: rng.random_range(0..WIDTH) as i32,
+                y: rng.random_range(0..8) as i32,
+                b: 100.0 * rng.random::<f32>(),
+                rng: rand::rng(),
+            };
+            stars.push(Box::new(s));
+        }
+
+        Group::new(stars)
+    }
 }
 
+impl Animate for Speck {
+    fn step(&mut self) -> Vec<Point> {
+        self.b = (self.b + (2.0 * self.rng.random::<f32>() - 1.0)) % 100.0;
+        let c = hsv_to_rgb(HSVa {
+            h: 54.0,
+            s: 1.0,
+            v: self.b / 150.0,
+            a: 1.0,
+        });
+        vec![Point {
+            x: self.x,
+            y: self.y,
+            c,
+        }]
+    }
+    fn width(&self) -> usize {
+        self.x as usize + 1
+    }
+    fn height(&self) -> usize {
+        self.y as usize + 1
+    }
+}
 impl Animate for Star {
     fn step(&mut self) -> Points {
         self.layers
