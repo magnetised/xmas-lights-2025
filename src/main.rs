@@ -20,7 +20,7 @@ mod terminal;
 mod train;
 mod tree;
 
-use display::{Animate, Display, Group, Layer, Points, rgba};
+use display::{rgba, Animate, Display, Group, Layer, Points};
 use train::board;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
