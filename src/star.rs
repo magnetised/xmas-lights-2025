@@ -1,7 +1,7 @@
 use crate::animation::Animation;
 use crate::display::{
-    darken, hsv_to_rgb, rgba, Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour,
-    HEIGHT, WIDTH,
+    Animate, Group, HEIGHT, HSVa, Point, Points, Rgba, Sprite, SpriteColour, WIDTH, darken,
+    hsv_to_rgb, rgba,
 };
 use rand::prelude::*;
 
@@ -121,11 +121,11 @@ impl Star {
 
 impl Animate for Speck {
     fn step(&mut self) -> Vec<Point> {
-        self.b = (self.b + 10.0 * (2.0 * self.rng.random::<f32>() - 1.0)) % 100.0;
+        self.b = (self.b + 8.0 * (2.0 * self.rng.random::<f32>() - 1.0)) % 100.0;
         let c = hsv_to_rgb(HSVa {
             h: 54.0,
             s: 1.0,
-            v: 0.3 + (self.b / 150.0),
+            v: 0.5 + (self.b / 250.0),
             a: 1.0,
         });
         vec![Point {
