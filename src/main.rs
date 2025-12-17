@@ -79,7 +79,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     -6,
                 ),
             ],
-            7,
+            8,
             10,
         ),
         seventeen::Seventeen::stripy(0, 0),
