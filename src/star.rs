@@ -121,11 +121,11 @@ impl Star {
 
 impl Animate for Speck {
     fn step(&mut self) -> Vec<Point> {
-        self.b = (self.b + (2.0 * self.rng.random::<f32>() - 1.0)) % 100.0;
+        self.b = (self.b + 10.0 * (2.0 * self.rng.random::<f32>() - 1.0)) % 100.0;
         let c = hsv_to_rgb(HSVa {
             h: 54.0,
             s: 1.0,
-            v: self.b / 150.0,
+            v: 0.3 + (self.b / 150.0),
             a: 1.0,
         });
         vec![Point {
