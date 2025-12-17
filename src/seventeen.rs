@@ -1,4 +1,4 @@
-use crate::display::{hsv_to_rgb, Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour};
+use crate::display::{Animate, Group, HSVa, Point, Points, Rgba, Sprite, SpriteColour, hsv_to_rgb};
 
 #[rustfmt::skip]
 const LARGE: [&str; 10] = [

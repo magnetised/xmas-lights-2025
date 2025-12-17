@@ -1,13 +1,13 @@
 use crate::display::{Animate, Points, Rgba, Sprite, SpriteColour};
 
 pub const RUNNER_COLOUR: Rgba = Rgba {
-    r: 244f32 / 255f32,
-    g: 209f32 / 255f32,
+    r: 100f32 / 255f32,
+    g: 87f32 / 255f32,
     b: 0f32 / 255f32,
     a: 1.0,
 };
 pub const SLEIGH_COLOUR: Rgba = Rgba {
-    r: 191f32 / 255f32,
+    r: 100f32 / 255f32,
     g: 0f32 / 255f32,
     b: 0f32 / 255f32,
     a: 1.0,

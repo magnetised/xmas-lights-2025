@@ -1,7 +1,7 @@
 use crate::display::{Animate, Point, Points, WIDTH};
 use rand::prelude::*;
 
-const PERIOD: usize = 8;
+const PERIOD: usize = 6;
 
 pub struct Train {
     parts: Vec<Part>,
@@ -37,8 +37,8 @@ impl Train {
             parts,
             x: 10,
             y: min_y,
-            min_y: min_y,
-            max_y: max_y,
+            min_y,
+            max_y,
             v: -1,
             n: 0,
             w,
@@ -74,6 +74,7 @@ impl Part {
 }
 impl Animate for Train {
     fn step(&mut self) -> Points {
+        let gap: i32 = 12;
         self.n = (self.n + 1) % PERIOD;
         if self.n == 0 {
             self.x += self.v;
@@ -86,8 +87,8 @@ impl Animate for Train {
             p.x = p.x + self.x;
             p.y = p.y + self.y;
         });
-        if (self.v < 0 && self.x < -(self.w as i32 + 8))
-            || (self.v > 0 && self.x > (WIDTH as i32 + 8))
+        if (self.v < 0 && self.x < -(self.w as i32 + gap))
+            || (self.v > 0 && self.x > (WIDTH as i32 + gap))
         {
             self.y = self.rng.random_range(self.min_y..=self.max_y);
             self.v = -self.v;

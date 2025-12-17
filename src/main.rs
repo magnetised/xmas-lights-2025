@@ -20,7 +20,7 @@ mod terminal;
 mod train;
 mod tree;
 
-use display::{rgba, Animate, Display, Group, Layer, Points};
+use display::{Animate, Display, Group, Layer, Points, rgba};
 use train::board;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -39,11 +39,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // snowflake::Snowflake::new(),
         train::Train::new(
             vec![
-                board(reindeer::Reindeer::rudolf(0, 0), 0, 0),
+                board(reindeer::Reindeer::rudolf(0, 0), 0, -1),
                 board(reindeer::Reindeer::new(0, 0), 11, 0),
                 board(reindeer::Reindeer::new(0, 0), 22, -1),
-                // board(reindeer::Reindeer::new(0, 0), 33, 0),
-                board(santa::Santa::new(0, 0), 33, -3),
+                board(reindeer::Reindeer::new(0, 0), 33, 0),
+                board(santa::Santa::new(0, 0), 44, -3),
                 board(
                     sleigh::Sleigh::new(
                         Group::new(vec![
@@ -69,14 +69,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                         0,
                         0,
                     ),
-                    45,
+                    56,
                     1,
                 ),
-                board(sleigh::Sleigh::new(tree::Tree::new(0, 0), -2, 0), 60, -6),
+                board(sleigh::Sleigh::new(tree::Tree::new(0, 0), -2, 0), 71, -6),
                 board(
                     sleigh::Sleigh::new(snowman::Snowman::new(0, 0), -2, 0),
-                    72,
-                    -7,
+                    83,
+                    -6,
                 ),
             ],
             7,
@@ -93,7 +93,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         // seventeen::Seventeen::large(2, 3),
         snow::Snow::new(3, 15),
         snow::Snow::new(4, 25),
-        star::Star::sprinkle(20),
+        star::Star::sprinkle(15),
     ];
 
     layers.reverse();
