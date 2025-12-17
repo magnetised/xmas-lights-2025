@@ -20,7 +20,7 @@ mod terminal;
 mod train;
 mod tree;
 
-use display::{rgba, Animate, Display, Group, Layer, Points};
+use display::{Animate, Display, Group, Layer, Points, rgba};
 use train::board;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -134,7 +134,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(feature = "leds")]
 fn display_impl() -> impl display::Display {
-    leds::LEDs::new(1.0)
+    leds::LEDs::new(0.8)
 }
 
 #[cfg(feature = "terminal")]
