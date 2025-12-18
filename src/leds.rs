@@ -3,7 +3,7 @@ use array2d::Array2D;
 use smart_leds::RGB8;
 use ws281x_rpi::Ws2812Rpi;
 
-use crate::display::{hsv_to_rgb, rgb_to_hsv, Display, HSVa, Rgb, Rgba, HEIGHT, WIDTH};
+use crate::display::{Display, HEIGHT, HSVa, Rgb, Rgba, WIDTH, hsv_to_rgb, rgb_to_hsv};
 
 const NUM_LEDS: usize = 300;
 const PIN: i32 = 10;
@@ -82,7 +82,7 @@ impl LEDs {
 
 impl Display for LEDs {
     fn render(&mut self, grid: &Array2D<Rgb>) {
-        let map = ARRAY_MAP;
+        let map = ARRAY_MAP_INVERTED;
         for y in 0..HEIGHT {
             for x in 0..WIDTH {
                 let l = map[y][x];
